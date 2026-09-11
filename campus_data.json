@@ -1,0 +1,610 @@
+{
+  "users": [
+    {"email":"uday@gmail.com","password":"uday","profile":{"id":"usr_1789147205321","fullName":"uday","email":"uday@gmail.com","phone":"","department":"Computer Science & Engineering","rollNo":"223344","year":"1st Year (Fresher)","avatar":"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80","joinedDate":"September 2026"}},
+    {"email":"jaggu@gmail.com","password":"jaggu","profile":{"id":"usr_1789137141975","fullName":"jaggu","email":"jaggu@gmail.com","phone":"","department":"Computer Science & Engineering","rollNo":"23456","year":"1st Year (Fresher)","avatar":"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80","joinedDate":"September 2026"}},
+    {"email":"akhil@gmail.com","password":"akhil","profile":{"id":"usr_1789136034675","fullName":"akhil","email":"akhil@gmail.com","phone":"","department":"Computer Science & Engineering","rollNo":"234552","year":"1st Year (Fresher)","avatar":"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80","joinedDate":"September 2026"}},
+    {"email":"akhiladithya403@gmail.com","phone":"9876500000","password":"akhil","profile":{"id":"usr_1789124840205","fullName":"akhil","email":"akhiladithya403@gmail.com","phone":"9876500000","department":"Computer Science & Engineering","rollNo":"24D41A05C6","year":"1st Year (Fresher)","avatar":"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80","joinedDate":"September 2026"}},
+    {"email":"pooja@college.edu","phone":"9876500000","password":"password123","profile":{"id":"usr_1789123458926","fullName":"Pooja Sharma","email":"pooja@college.edu","phone":"9876500000","department":"Artificial Intelligence \u0026 Data Science","rollNo":"24AI105","year":"1st Year (Fresher)","avatar":"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80","joinedDate":"September 2026"}},
+    {
+      "email": "arunkumar.student@college.edu",
+      "phone": "9876543210",
+      "password": "password123",
+      "profile": {
+        "id": "usr_2026_01",
+        "fullName": "Arun Kumar",
+        "email": "arunkumar.student@college.edu",
+        "phone": "9876543210",
+        "department": "Computer Science & Engineering",
+        "rollNo": "22CS108",
+        "year": "3rd Year",
+        "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80",
+        "joinedDate": "August 2024"
+      }
+    }
+  ],
+  "canteenMenu": [
+    {
+      "id": "food_01",
+      "name": "South Indian Mini Meals Thali",
+      "category": "Meals",
+      "price": 85,
+      "prepTime": 5,
+      "counter": "Counter 1 (Hot Meals)",
+      "image": "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?auto=format&fit=crop&w=500&q=80",
+      "description": "Steamed Basmati Rice, Sambar, Rasam, Kootu, Curd, Appalam, and Sweet Kesari.",
+      "inStock": true
+    },
+    {
+      "id": "food_02",
+      "name": "Crispy Masala Dosa with Sambar & Chutneys",
+      "category": "Breakfast",
+      "price": 50,
+      "prepTime": 6,
+      "counter": "Counter 1 (Hot Meals)",
+      "image": "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=500&q=80",
+      "description": "Golden roasted butter dosa filled with spiced potato masala and freshly ground coconut chutneys.",
+      "inStock": true
+    },
+    {
+      "id": "food_03",
+      "name": "Hyderabadi Veg Dum Biryani & Raita",
+      "category": "Meals",
+      "price": 95,
+      "prepTime": 4,
+      "counter": "Counter 1 (Hot Meals)",
+      "image": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=500&q=80",
+      "description": "Fragrant basmati rice slow-cooked with fresh garden vegetables, mint, saffron, and cooling onion raita.",
+      "inStock": true
+    },
+    {
+      "id": "food_04",
+      "name": "Crispy Veg Cheese Burger & Seasoned Fries",
+      "category": "Fast Food",
+      "price": 70,
+      "prepTime": 8,
+      "counter": "Counter 2 (Quick Bites)",
+      "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80",
+      "description": "Crunchy vegetable patty with melted cheddar cheese, lettuce, house mayo, and salted potato fries.",
+      "inStock": true
+    },
+    {
+      "id": "food_05",
+      "name": "Paneer Tikka Kathi Roll / Frankie",
+      "category": "Fast Food",
+      "price": 60,
+      "prepTime": 6,
+      "counter": "Counter 2 (Quick Bites)",
+      "image": "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=500&q=80",
+      "description": "Marinated tandoori paneer cubes wrapped in whole-wheat paratha with mint relish and crisp onions.",
+      "inStock": true
+    },
+    {
+      "id": "food_06",
+      "name": "Hot Samosa with Tangy Tamarind Chutney (2 Pcs)",
+      "category": "Snacks",
+      "price": 30,
+      "prepTime": 2,
+      "counter": "Counter 2 (Quick Bites)",
+      "image": "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=500&q=80",
+      "description": "Golden crispy pastry shells packed with cumin-spiced peas and potatoes.",
+      "inStock": true
+    },
+    {
+      "id": "food_07",
+      "name": "Grilled Vegetable & Corn Sandwich",
+      "category": "Snacks",
+      "price": 45,
+      "prepTime": 5,
+      "counter": "Counter 2 (Quick Bites)",
+      "image": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=500&q=80",
+      "description": "Toasted brown bread filled with sweet corn, bell peppers, melted mozzarella, and green chutney.",
+      "inStock": true
+    },
+    {
+      "id": "food_08",
+      "name": "South Indian Filter Coffee (Freshly Brewed)",
+      "category": "Beverages",
+      "price": 20,
+      "prepTime": 2,
+      "counter": "Counter 3 (Beverages & Juice)",
+      "image": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=500&q=80",
+      "description": "Authentic frothy chicory-blended filter coffee brewed with hot whole milk.",
+      "inStock": true
+    },
+    {
+      "id": "food_09",
+      "name": "Belgian Cold Chocolate Thick Shake",
+      "category": "Beverages",
+      "price": 45,
+      "prepTime": 4,
+      "counter": "Counter 3 (Beverages & Juice)",
+      "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80",
+      "description": "Chilled rich dairy milkshake blended with imported cocoa, chocolate drizzle, and choco chips.",
+      "inStock": true
+    },
+    {
+      "id": "food_10",
+      "name": "Fresh Mosambi / Sweet Lime Citrus Juice",
+      "category": "Beverages",
+      "price": 35,
+      "prepTime": 3,
+      "counter": "Counter 3 (Beverages & Juice)",
+      "image": "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=500&q=80",
+      "description": "100% natural, freshly squeezed sweet lime juice with zero added artificial preservatives.",
+      "inStock": true
+    }
+  ],
+  "canteenTokens": [
+    {"id":"tkn_1789149910850","tokenNo":"CT-110","studentName":"uday","rollNo":"223344","itemsSummary":"Hyderabadi Veg Dum Biryani & Raita x1","totalAmount":95,"counter":"Counter 1 (Hot Meals)","status":"Preparing","createdAt":"Just now","estReadyTime":"Approx 4 mins","notified":false},
+    {"id":"tkn_1789147226407","tokenNo":"CT-109","studentName":"uday","rollNo":"223344","itemsSummary":"Crispy Masala Dosa with Sambar & Chutneys x1","totalAmount":50,"counter":"Counter 1 (Hot Meals)","status":"Preparing","createdAt":"Just now","estReadyTime":"Approx 6 mins","notified":false},
+    {"id":"tkn_1789136299840","tokenNo":"CT-108","studentName":"Arun Kumar","rollNo":"22CS108","itemsSummary":"South Indian Mini Meals Thali x1","totalAmount":85,"counter":"Counter 1 (Hot Meals)","status":"Preparing","createdAt":"Just now","estReadyTime":"Approx 5 mins","notified":false},
+    {"id":"tkn_1789136259183","tokenNo":"CT-107","studentName":"Arun Kumar","rollNo":"22CS108","itemsSummary":"Crispy Masala Dosa with Sambar & Chutneys x1","totalAmount":50,"counter":"Counter 1 (Hot Meals)","status":"Preparing","createdAt":"Just now","estReadyTime":"Approx 6 mins","notified":false},
+    {"id":"tkn_1789136230358","tokenNo":"CT-106","studentName":"Arun Kumar","rollNo":"22CS108","itemsSummary":"Hyderabadi Veg Dum Biryani & Raita x1","totalAmount":95,"counter":"Counter 1 (Hot Meals)","status":"Preparing","createdAt":"Just now","estReadyTime":"Approx 4 mins","notified":false},
+    {"id":"tkn_1789130253625","tokenNo":"CT-105","studentName":"akhil","rollNo":"24D41A05C6","itemsSummary":"Hyderabadi Veg Dum Biryani & Raita x1","totalAmount":95,"counter":"Counter 1 (Hot Meals)","status":"Preparing","createdAt":"Just now","estReadyTime":"Approx 4 mins","notified":false},
+    {
+    "id":  "tkn_test_99",
+    "itemsSummary":  "Masala Dosa x1",
+    "notified":  false,
+    "tokenNo":  "CT-199",
+    "totalAmount":  50,
+    "createdAt":  "Just now",
+    "studentName":  "Arun Kumar",
+    "estReadyTime":  "Approx 5 mins",
+    "counter":  "Counter 1 (Hot Meals)",
+    "status":  "Preparing",
+    "rollNo":  "22CS108"
+},
+    {
+      "id": "tkn_101",
+      "tokenNo": "CT-101",
+      "studentName": "Priya Sundar",
+      "rollNo": "23EC042",
+      "itemsSummary": "Crispy Masala Dosa (1), Filter Coffee (1)",
+      "totalAmount": 70,
+      "counter": "Counter 1 (Hot Meals)",
+      "status": "Ready",
+      "createdAt": "10 mins ago",
+      "estReadyTime": "Ready now for pickup",
+      "notified": true
+    },
+    {
+      "id": "tkn_102",
+      "tokenNo": "CT-102",
+      "studentName": "Vikram Mehta",
+      "rollNo": "24IT019",
+      "itemsSummary": "Veg Cheese Burger (1), Cold Shake (1)",
+      "totalAmount": 115,
+      "counter": "Counter 2 (Quick Bites)",
+      "status": "Preparing",
+      "createdAt": "6 mins ago",
+      "estReadyTime": "Approx 3 mins left",
+      "notified": false
+    },
+    {
+      "id": "tkn_103",
+      "tokenNo": "CT-103",
+      "studentName": "Sneha Roy",
+      "rollNo": "22CS088",
+      "itemsSummary": "South Indian Mini Meals Thali (1)",
+      "totalAmount": 85,
+      "counter": "Counter 1 (Hot Meals)",
+      "status": "Preparing",
+      "createdAt": "3 mins ago",
+      "estReadyTime": "Approx 5 mins left",
+      "notified": false
+    }
+  ],
+  "navigationPlaces": [
+    {
+      "id": "loc_01",
+      "name": "Advanced AI & Machine Learning Lab",
+      "category": "Lab",
+      "block": "Tech Block A",
+      "floor": "3rd Floor",
+      "roomNo": "TB-305",
+      "landmark": "Next to Elevator, East Wing",
+      "directions": "Enter Tech Block A main lobby. Take the right elevator or stairs to the 3rd floor. Turn right down the corridor. Room TB-305 is the third door on your left.",
+      "voiceScript": "Welcome to Campus Navigation. To reach the Advanced AI and Machine Learning Lab TB-305: Enter Tech Block A main lobby. Take the elevator or stairs to the third floor. Turn right and walk down the corridor. TB-305 is the third door on your left.",
+      "equipment": "GPU Workstations, Tensor Cores, High Speed LAN, Smart Projector",
+      "inCharge": "Dr. Ramesh Sundaram (HOD CSE)"
+    },
+    {
+      "id": "loc_02",
+      "name": "Central IoT & Embedded Systems Lab",
+      "category": "Lab",
+      "block": "Tech Block B",
+      "floor": "2nd Floor",
+      "roomNo": "TB-204",
+      "landmark": "Opposite ECE Department Office",
+      "directions": "Head to Tech Block B. Ascend central staircase to 2nd Floor. Walk straight past ECE staff room. Door 204 with IoT sensor badge.",
+      "voiceScript": "Guiding you to Central IoT and Embedded Systems Lab: Walk to Tech Block B. Take the central staircase to the second floor. Head straight past the ECE staff room. Room 204 is on your right.",
+      "equipment": "Arduino/ESP32 kits, Digital Storage Oscilloscopes, Soldering stations",
+      "inCharge": "Prof. Ananya Sen"
+    },
+    {
+      "id": "loc_03",
+      "name": "Lecture Hall 101 (Freshers Core)",
+      "category": "Classroom",
+      "block": "Main Academic Block",
+      "floor": "Ground Floor",
+      "roomNo": "MB-101",
+      "landmark": "Right wing past Student Dean Office",
+      "directions": "Enter Main Academic Block through front porch. Walk right past the Dean Office notice board. First large lecture hall on right.",
+      "voiceScript": "Directions to Lecture Hall 101: Enter the Main Academic Block via the front porch. Walk down the right corridor past the Dean office. Lecture Hall 101 is the first auditorium door on your right.",
+      "equipment": "Tiered seating for 120 students, Dual Wireless Mics, Interactive Display",
+      "inCharge": "Academic Section"
+    },
+    {
+      "id": "loc_04",
+      "name": "Central Food Court & Canteen",
+      "category": "Amenity",
+      "block": "Student Amenities Block",
+      "floor": "Ground Floor",
+      "roomNo": "CAN-01",
+      "landmark": "Central Quadrangle lawn, opposite Clock Tower",
+      "directions": "Walk through central green campus quadrangle. Follow signs towards the Student Amenities Block. Enter the main glass doors of Canteen.",
+      "voiceScript": "Navigating to Central Canteen and Food Court: Walk across the main quadrangle lawn towards the Student Amenities Block. The food court entrance is on the ground floor with digital token collection counters.",
+      "equipment": "Wait-Free Token Counters, Digital Display, 400 Seat Capacity",
+      "inCharge": "Canteen Committee & Food Supervisor"
+    },
+    {
+      "id": "loc_05",
+      "name": "Central Digital Library & Reading Hall",
+      "category": "Amenity",
+      "block": "Library Block",
+      "floor": "1st & 2nd Floor",
+      "roomNo": "LIB-MAIN",
+      "landmark": "Clock Tower Building",
+      "directions": "Cross central quadrangle towards the Clock Tower. Enter Ground Floor for book issue or proceed up for Quiet Research & Digital e-Library.",
+      "voiceScript": "Navigating to Central Digital Library: Walk towards the Clock Tower building. Enter the ground floor lobby for physical book lending or ascend to the first floor for digital terminals and silent study halls.",
+      "equipment": "100+ Internet terminals, IEEE Xplore Access, Silent Study Cubicles",
+      "inCharge": "Chief Librarian Mrs. S. Varma"
+    },
+    {
+      "id": "loc_06",
+      "name": "Physics & Optics Laboratory",
+      "category": "Lab",
+      "block": "Science Block",
+      "floor": "1st Floor",
+      "roomNo": "SB-102",
+      "landmark": "Near Western Staircase",
+      "directions": "Enter Science Block. Take west staircase to 1st floor. Turn left. Room 102 (Darkroom lab for spectrometers).",
+      "voiceScript": "Directions to Physics and Optics Laboratory: Enter Science Block. Ascend the west staircase to the first floor and turn left. Room SB-102 is immediately ahead.",
+      "equipment": "He-Ne Lasers, Spectrometers, Hall Effect apparatus, Darkroom",
+      "inCharge": "Dr. K. Balaji"
+    },
+    {
+      "id": "loc_07",
+      "name": "Seminar Hall 1 (Auditorium)",
+      "category": "Auditorium",
+      "block": "Main Academic Block",
+      "floor": "2nd Floor",
+      "roomNo": "MB-210",
+      "landmark": "Near Executive Conference Suite",
+      "directions": "Main Block elevator to 2nd floor. Follow grand central corridor. Double soundproof doors.",
+      "voiceScript": "Navigating to Seminar Hall 1: Take the Main Academic Block central elevator to the second floor. Walk straight down the grand corridor to the double soundproof wooden doors.",
+      "equipment": "Surround sound, 300 seating, Dual Projection, Stage Lighting",
+      "inCharge": "Cultural Affairs Committee"
+    },
+    {
+      "id": "loc_08",
+      "name": "Campus Medical Centre & First Aid",
+      "category": "Amenity",
+      "block": "Student Amenities Block",
+      "floor": "Ground Floor",
+      "roomNo": "AM-002",
+      "landmark": "Next to Campus Pharmacy & Ambulance Bay",
+      "directions": "Walk behind Canteen towards Amenities block. Ground floor entrance with Red Cross sign.",
+      "voiceScript": "Emergency route to Campus Medical Centre: Walk towards the Student Amenities Block behind the canteen. Look for the illuminated Red Cross sign at ground floor door AM-002.",
+      "equipment": "2 Emergency Beds, Oxygen Concentrator, Ambulance on standby 24/7",
+      "inCharge": "Dr. P. Nair (Resident Medical Officer)"
+    }
+  ],
+  "lostFound": [
+    {"id":"lf_1789136186531","type":"lost","title":"watch","category":"Electronics","location":"canteen","date":"2026-09-11","description":"black watch","contactEmail":"akhil@gmail.com","contactPhone":"8309173563","reporterRollNo":"22CS108","mediaUrl":"","mediaType":"image","status":"Open","createdAt":"9/11/2026, 7:46:26 PM"},
+    {
+      "id": "lf_301",
+      "type": "lost",
+      "title": "Casio Scientific Calculator fx-991EX (ClassWiz)",
+      "category": "Electronics",
+      "location": "Science Block Physics Lab SB-102",
+      "date": "2026-09-08",
+      "description": "Black scientific calculator with white slide cover. Has a silver sticker with student initials \"AK\" on back cover.",
+      "contactEmail": "arunkumar.student@college.edu",
+      "contactPhone": "9876543210",
+      "reporterRollNo": "22CS108",
+      "status": "Open",
+      "mediaUrl": "https://images.unsplash.com/photo-1594980596870-8aa52a78d8cd?auto=format&fit=crop&w=600&q=80",
+      "mediaType": "image"
+    },
+    {
+      "id": "lf_302",
+      "type": "found",
+      "title": "Casio fx-991EX Scientific Calculator",
+      "category": "Electronics",
+      "location": "Science Block ground floor bench",
+      "date": "2026-09-09",
+      "description": "Found scientific calculator left behind on a wooden bench in Science Block. Has letters \"AK\" written on silver tape.",
+      "contactEmail": "security.desk@college.edu",
+      "contactPhone": "044-24567890",
+      "reporterRollNo": "SECURITY-GATE1",
+      "status": "Matches Lost Item",
+      "finderName": "Campus Security",
+      "mediaUrl": "https://images.unsplash.com/photo-1594980596870-8aa52a78d8cd?auto=format&fit=crop&w=600&q=80",
+      "mediaType": "image"
+    },
+    {
+      "id": "lf_303",
+      "type": "lost",
+      "title": "Leather Wallet with Cash and Student ID Card",
+      "category": "Personal Belongings / Money",
+      "location": "Central Canteen or Basketball Court",
+      "date": "2026-09-09",
+      "description": "Brown leather Wildcraft wallet containing cash ₹1500, SBI ATM card, and college ID card for roll 22CS108.",
+      "contactEmail": "arunkumar.student@college.edu",
+      "contactPhone": "9876543210",
+      "reporterRollNo": "22CS108",
+      "status": "Open",
+      "mediaUrl": "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=600&q=80",
+      "mediaType": "image"
+    }
+  ],
+  "events": [
+    {
+      "id": "ev_401",
+      "title": "HackCampus 2026: 24-Hour AI & IoT Hackathon",
+      "category": "Hackathon",
+      "date": "September 26-27, 2026",
+      "time": "09:00 AM - Next Day 09:00 AM",
+      "venue": "Advanced AI & ML Lab (TB-305)",
+      "description": "Build cutting-edge solutions for smart campus automation, healthcare AI, and sustainable energy. Cash prize pool ₹50,000 + Internship interviews.",
+      "banner": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=700&q=80",
+      "coordinator": "Dr. Ramesh S. & Tech Club",
+      "seatsTotal": 150,
+      "seatsFilled": 112,
+      "tags": ["AI", "Robotics", "Web3", "IoT"]
+    },
+    {
+      "id": "ev_402",
+      "title": "Generative AI & LLM Systems Hands-on Masterclass",
+      "category": "Workshop",
+      "date": "October 03, 2026",
+      "time": "10:00 AM - 04:00 PM",
+      "venue": "Seminar Hall 1 (MB-210)",
+      "description": "Deep dive into local LLM inference, RAG pipelines, fine-tuning, and multi-agent systems with industry engineers.",
+      "banner": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=700&q=80",
+      "coordinator": "Prof. Ananya Sen (Dept of CSE)",
+      "seatsTotal": 120,
+      "seatsFilled": 89,
+      "tags": ["Machine Learning", "GenAI", "Python"]
+    },
+    {
+      "id": "ev_403",
+      "title": "E-Summit 2026: Campus Startup Pitch & Angel Funding",
+      "category": "Summit",
+      "date": "October 15, 2026",
+      "time": "09:30 AM - 05:00 PM",
+      "venue": "Auditorium Central",
+      "description": "Present your startup idea before venture capitalists, angel investors, and incubators. Live demo booths, networking lunch, and seed grants.",
+      "banner": "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=700&q=80",
+      "coordinator": "Campus Incubation Centre",
+      "seatsTotal": 250,
+      "seatsFilled": 165,
+      "tags": ["Entrepreneurship", "Funding", "Innovation"]
+    }
+  ],
+  "games": [
+    {
+      "id": "gm_501",
+      "title": "Inter-Department T20 Cricket Championship Trophy",
+      "sport": "Cricket",
+      "schedule": "Starts October 05, 2026",
+      "venue": "Main Campus Cricket Oval",
+      "teamFormat": "11 Players + 4 Substitutes",
+      "description": "Annual inter-departmental leather ball tournament. Rolling trophy, best batsman, and player of the series awards.",
+      "banner": "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=700&q=80",
+      "coordinator": "Coach S. Natarajan (Physical Education Dept)",
+      "maxTeams": 16,
+      "registeredTeams": 12,
+      "regDeadline": "October 01, 2026"
+    },
+    {
+      "id": "gm_502",
+      "title": "Campus Football League (CFL 2026)",
+      "sport": "Football",
+      "schedule": "Starts October 10, 2026",
+      "venue": "Turf Football Arena (Floodlit)",
+      "teamFormat": "7-a-side + 3 Reserves",
+      "description": "Fast-paced 7v7 football under floodlights. Refereed by state-certified referees. Trophies, medals, and gear vouchers.",
+      "banner": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=700&q=80",
+      "coordinator": "Sports Secretary Vignesh K.",
+      "maxTeams": 12,
+      "registeredTeams": 9,
+      "regDeadline": "October 06, 2026"
+    },
+    {
+      "id": "gm_503",
+      "title": "Inter-College Badminton Open (Men & Women)",
+      "sport": "Badminton",
+      "schedule": "September 30, 2026",
+      "venue": "Indoor Sports Complex, Court 1-4",
+      "teamFormat": "Singles & Doubles",
+      "description": "Yonex synthetic indoor courts. Knockout rounds, semi-finals and grand finals with live scoring scoreboard.",
+      "banner": "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=700&q=80",
+      "coordinator": "Mrs. Deepa Krishnan (Physical Director)",
+      "maxTeams": 64,
+      "registeredTeams": 48,
+      "regDeadline": "September 28, 2026"
+    },
+    {
+      "id": "gm_504",
+      "title": "Campus Esports Showdown: Valorant & BGMI",
+      "sport": "Esports",
+      "schedule": "October 12, 2026",
+      "venue": "High Performance Gaming Arena (TB-102)",
+      "teamFormat": "Squad 5v5 / 4v4",
+      "description": "LAN tournament on 240Hz monitors, ultra-low latency fiber line, shoutcasting on YouTube Live.",
+      "banner": "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=700&q=80",
+      "coordinator": "College Gaming Society",
+      "maxTeams": 32,
+      "registeredTeams": 26,
+      "regDeadline": "October 08, 2026"
+    }
+  ],
+  "issues": [
+    {
+      "id": "iss_101",
+      "title": "Water Cooler not dispensing chilled drinking water",
+      "category": "Drinking Water & Sanitation",
+      "domainType": "facility",
+      "block": "Main Academic Block",
+      "floor": "2nd Floor",
+      "locationDetails": "Near MB-205 water station",
+      "description": "The primary water cooler is producing hot water and the drain below is overflowing. Fresh clean water is desperately needed.",
+      "mediaUrl": "https://images.unsplash.com/photo-1541888946425-d0fbb18086f7?auto=format&fit=crop&w=600&q=80",
+      "mediaType": "image",
+      "status": "In Progress",
+      "priority": "High",
+      "reportedBy": "Arun Kumar",
+      "reporterRollNo": "22CS108",
+      "reporterEmail": "arunkumar.student@college.edu",
+      "reportedAt": "2026-09-08 10:15 AM",
+      "upvotes": 24,
+      "aiTriage": {
+        "urgency": "High",
+        "department": "Plumbing & Campus Sanitation Cell",
+        "actionEstimate": "Technician dispatched, valve replacement underway."
+      }
+    },
+    {
+      "id": "iss_102",
+      "title": "Broken wooden benches & exposed sharp screws in Room 204",
+      "category": "Broken Benches & Furniture",
+      "domainType": "facility",
+      "block": "Tech Block A",
+      "floor": "2nd Floor",
+      "locationDetails": "Row 3 & Row 5 near window",
+      "description": "Two desk benches have broken wooden planks. Multiple sharp screws are exposed which torn a student notebook.",
+      "mediaUrl": "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=600&q=80",
+      "mediaType": "image",
+      "status": "Under Review",
+      "priority": "Medium",
+      "reportedBy": "Kavita Menon",
+      "reporterRollNo": "23CS041",
+      "reporterEmail": "kavita.m@college.edu",
+      "reportedAt": "2026-09-09 09:30 AM",
+      "upvotes": 18,
+      "aiTriage": {
+        "urgency": "Medium",
+        "department": "Carpentry & Estate Maintenance Office",
+        "actionEstimate": "Scheduled for repair during weekend maintenance window."
+      }
+    },
+    {
+      "id": "iss_103",
+      "title": "Canteen food hygiene and stale drinking cups concern",
+      "category": "Canteen Hygiene & Mess",
+      "domainType": "complaint",
+      "block": "Student Amenities Block",
+      "floor": "Ground Floor",
+      "locationDetails": "Juice and Tea counter",
+      "description": "Multiple students noticed non-sterilized reusable plastic cups served at the juice stall. Fresh drinking water filter in canteen needs replacement.",
+      "mediaUrl": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80",
+      "mediaType": "image",
+      "status": "Under Investigation",
+      "priority": "High",
+      "reportedBy": "Sneha Roy",
+      "reporterRollNo": "22CS088",
+      "reporterEmail": "sneha.r@college.edu",
+      "reportedAt": "2026-09-08 01:45 PM",
+      "upvotes": 32,
+      "aiTriage": {
+        "urgency": "High",
+        "department": "Canteen Quality & Health Inspection Committee",
+        "actionEstimate": "Official inspection scheduled for Sep 10."
+      }
+    }
+  ],
+  "faqs": [
+    {
+      "id": "faq_01",
+      "question": "How do I log in using my Roll Number?",
+      "category": "Authentication",
+      "answer": "On the sign-in screen, enter your college Roll Number (e.g. 22CS108 or your registered roll number) in the primary login input field followed by your password. You can also sign in using your registered Gmail or phone number."
+    },
+    {
+      "id": "faq_02",
+      "question": "How does the Lost & Found automatic email matching work?",
+      "category": "Lost & Found",
+      "answer": "When you report a lost or found item with details (title, category, location, and photo/video), our algorithm analyzes keywords, categories, and campus proximity. When a match score exceeds 75%, an automated alert email is instantly dispatched to your registered mailbox!"
+    },
+    {
+      "id": "faq_03",
+      "question": "How does the Canteen Queue wait-free token system work?",
+      "category": "Canteen Queue",
+      "answer": "Browse the digital menu, choose your dishes, and click \"Generate Wait-Free Token\". A unique token number (e.g., CT-104) is generated instantly, saving you from waiting in queues. You receive an automated token email, live queue tracking, and an audio reminder chime when your order is ready for collection!"
+    },
+    {
+      "id": "faq_04",
+      "question": "How does the Navigation System Voice Assistance work?",
+      "category": "Navigation",
+      "answer": "Search or select any campus room, lab, or hall (like TB-305 or Central Canteen) and click the \"🔊 Listen Route (Voice Assistance)\" button. The portal uses browser speech synthesis to read turn-by-turn walking directions aloud. You can also click the microphone icon to search by voice."
+    },
+    {
+      "id": "faq_05",
+      "question": "How do I receive my Events and Games admission pass?",
+      "category": "Events & Games",
+      "answer": "When you register for a hackathon, workshop, or sports tournament (like Cricket or Badminton), your Roll Number and student details are verified, and an official Digital Entry Ticket / Athlete Pass with a unique Pass ID is automatically emailed to your virtual mailbox."
+    },
+    {
+      "id": "faq_06",
+      "question": "Can I upload videos as proof for complaints and campus issues?",
+      "category": "Complaints & Issues",
+      "answer": "Yes! Both photos and video clips can be uploaded as evidence for drinking water shortages, broken benches, electrical faults, or mess grievances. You receive an automated email receipt with a tracking ticket number and resolution status updates."
+    },
+    {
+      "id": "faq_07",
+      "question": "Where can I see all the automated emails sent to me?",
+      "category": "General",
+      "answer": "Click the envelope icon (Virtual Mailbox) in the top menu bar anytime. It stores all automated notifications, match alerts, canteen token receipts, and event passes in real time."
+    },
+    {
+      "id": "faq_08",
+      "question": "How do I contact the emergency Help Desk?",
+      "category": "Help Desk",
+      "answer": "Click the \"Help Desk\" button in the top menu bar to access 24/7 campus emergency hotlines (Medical Emergency, Security Gate, Anti-Ragging Cell) and chat with the AI Campus Assistant."
+    }
+  ],
+  "mailbox": [
+    {
+      "id": "mail_001",
+      "subject": "✨ [CampusConnect AI] Match Detected: Casio Scientific Calculator Found!",
+      "sender": "CampusConnect AI Lost & Found <lostfound@college.edu>",
+      "recipient": "arunkumar.student@college.edu",
+      "date": "2026-09-09 11:30 AM",
+      "read": false,
+      "category": "Lost & Found",
+      "body": "<div style=\"font-family: sans-serif; padding: 20px;\"><h2 style=\"color: #2563eb;\">Potential Item Match Found (92% Match)</h2><p>Hello <strong>Arun Kumar</strong> (Roll: <strong>22CS108</strong>),</p><p>An item matching your lost <strong>Casio Scientific Calculator fx-991EX</strong> was reported found near the Science Block bench.</p><p>Please collect it from Security Gate 1 with your College ID card.</p></div>"
+    },
+    {
+      "id": "mail_002",
+      "subject": "🍽️ [Canteen Token #CT-101] Order Confirmed - Counter 1",
+      "sender": "CampusConnect AI Smart Canteen <canteen@college.edu>",
+      "recipient": "arunkumar.student@college.edu",
+      "date": "2026-09-09 08:35 AM",
+      "read": true,
+      "category": "Canteen Queue",
+      "body": "<div style=\"font-family: sans-serif; padding: 20px;\"><h2 style=\"color: #ea580c;\">Wait-Free Token Confirmed: #CT-101</h2><p>Student: <strong>Arun Kumar</strong> (Roll: 22CS108)</p><p>Items: Crispy Masala Dosa (1), Filter Coffee (1) - Total: ₹70</p><p>Status: Ready for Collection at <strong>Counter 1 (Hot Meals)</strong></p></div>"
+    },
+    {
+      "id": "mail_003",
+      "subject": "📋 [Complaint Acknowledged #ISS-101] Water Cooler Maintenance",
+      "sender": "Campus Facilities & Proctor Cell <grievances@college.edu>",
+      "recipient": "arunkumar.student@college.edu",
+      "date": "2026-09-08 10:20 AM",
+      "read": true,
+      "category": "Campus Issues",
+      "body": "<div style=\"font-family: sans-serif; padding: 20px;\"><h2 style=\"color: #4f46e5;\">Issue Tracking Reference: #ISS-101</h2><p>Dear Arun Kumar,</p><p>Your report regarding <strong>Water Cooler not dispensing chilled water on 2nd floor MB</strong> has been triaged as <strong>HIGH PRIORITY</strong> and forwarded to Plumbing & Sanitation Cell.</p></div>"
+    }
+  ]
+}

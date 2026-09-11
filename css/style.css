@@ -1,0 +1,44 @@
+/* CampusConnect AI - Pure Custom CSS Stylesheet */
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --secondary: #059669;
+  --accent-orange: #ea580c;
+  --accent-purple: #7c3aed;
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --text-dark: #0f172a;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-main); color: var(--text-dark); }
+.hidden { display: none !important; }
+
+/* Top Header */
+.navbar { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; }
+.home-menu-bar { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 14px 20px; margin-bottom: 24px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; font-size: 0.85rem; font-weight: 700; border-radius: var(--radius-sm); border: 1px solid transparent; cursor: pointer; transition: all 0.2s ease; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-secondary { background: #f1f5f9; color: var(--text-dark); border-color: var(--border-color); }
+.btn-danger { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
+
+/* Media Upload Box */
+.media-upload-area { border: 2px dashed #94a3b8; border-radius: var(--radius-md); background: #f8fafc; padding: 20px; text-align: center; cursor: pointer; margin: 10px 0; }
+.media-upload-area:hover { border-color: var(--primary); background: #eff6ff; }
+
+/* Voice Wave Animation */
+.voice-wave-box { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-sm); margin-bottom: 14px; }
+.voice-bars { display: flex; align-items: center; gap: 4px; }
+.voice-bar { width: 4px; background: var(--primary); border-radius: 2px; animation: waveAnim 0.8s ease-in-out infinite alternate; }
+.voice-bar:nth-child(1) { height: 12px; animation-delay: 0.1s; }
+.voice-bar:nth-child(2) { height: 24px; animation-delay: 0.3s; }
+.voice-bar:nth-child(3) { height: 16px; animation-delay: 0.2s; }
+.voice-bar:nth-child(4) { height: 20px; animation-delay: 0.4s; }
+@keyframes waveAnim { 0% { transform: scaleY(0.4); } 100% { transform: scaleY(1.2); } }

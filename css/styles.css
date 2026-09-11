@@ -1,0 +1,162 @@
+/* Campus Fix AI - Core Custom Styles */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+
+:root {
+  --font-main: 'Plus Jakarta Sans', sans-serif;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #60a5fa;
+  --secondary: #059669;
+  --accent: #f59e0b;
+  --danger: #ef4444;
+  --warning: #f97316;
+  --dark-surface: #0f172a;
+}
+
+/* Core display utility fallbacks (ensures show/hide works even if CDN is delayed) */
+.hidden {
+  display: none !important;
+}
+.block {
+  display: block !important;
+}
+.flex {
+  display: flex !important;
+}
+.invisible {
+  visibility: hidden !important;
+}
+.visible {
+  visibility: visible !important;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: #f8fafc;
+  color: #1e293b;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: var(--font-heading);
+}
+
+/* Glassmorphism elements */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.glass-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px -4px rgba(37, 99, 235, 0.12);
+  border-color: rgba(147, 197, 253, 0.9);
+}
+
+/* Back Button Glow */
+.back-btn-pill {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.back-btn-pill:hover {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+  transform: translateX(-2px);
+}
+
+/* Media preview upload boxes */
+.media-preview-box {
+  border: 2px dashed #cbd5e1;
+  border-radius: 0.75rem;
+  background: #f8fafc;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.media-preview-box:hover {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+/* Interactive Map Canvas Styles */
+.map-canvas-container {
+  position: relative;
+  background: #f1f5f9;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.map-grid-pattern {
+  background-image: radial-gradient(#cbd5e1 1.2px, transparent 1.2px);
+  background-size: 20px 20px;
+}
+
+.map-node {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.map-node:hover {
+  transform: scale(1.04);
+  filter: brightness(1.05);
+}
+.map-node.active-route {
+  animation: nodeGlow 1.5s infinite alternate;
+}
+
+@keyframes nodeGlow {
+  from { box-shadow: 0 0 0 2px #3b82f6, 0 0 12px rgba(59, 130, 246, 0.4); }
+  to { box-shadow: 0 0 0 4px #2563eb, 0 0 20px rgba(37, 99, 235, 0.8); }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.toast-animate {
+  animation: slideDown 0.3s ease-out forwards;
+}
+
+/* Modal Backdrops & Dialogs */
+.modal-overlay {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background-color: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* Voice wave pulse animations */
+@keyframes voicePulse {
+  0%, 100% { height: 8px; }
+  50% { height: 28px; }
+}
+
+.voice-bar {
+  animation: voicePulse 1.2s ease-in-out infinite;
+}
+
+/* Token badge pulse */
+.token-glow {
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+}
+

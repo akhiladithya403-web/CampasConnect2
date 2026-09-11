@@ -1,514 +1,1687 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full bg-slate-50">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CampusConnect AI - Smart College Student Portal</title>
+  <title>CampusConnect AI - College Smart Student Portal</title>
 
-  <!-- Font Awesome Icons & Custom CSS Stylesheet -->
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Font Awesome 6 Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="css/style.css">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body class="h-full flex flex-col font-sans antialiased text-slate-800 bg-slate-50">
 
-  <!-- ================= TOP HEADER BAR ================= -->
-  <header class="navbar">
-    <div class="brand-logo" onclick="navigateTo('home')">
-      <i class="fa-solid fa-graduation-cap"></i>
-      <span>CampusConnect <span class="brand-ai-badge">AI</span></span>
-    </div>
+  <!-- ================= TOP NAVIGATION BAR ================= -->
+  <header class="sticky top-0 z-40 glass-nav border-b border-slate-200 shadow-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
 
-    <!-- Right Header Controls -->
-    <div class="menu-buttons-group">
-      <button class="btn btn-secondary" onclick="navigateTo('helpdesk')">
-        <i class="fa-solid fa-headset"></i> Help Desk
-      </button>
-      <button class="btn btn-secondary" onclick="openModal('modal-faq')">
-        <i class="fa-solid fa-circle-question"></i> FAQs
-      </button>
-      <button class="btn btn-secondary" onclick="navigateTo('mailbox')">
-        <i class="fa-regular fa-envelope"></i> Mailbox (<span id="mail-count">0</span>)
-      </button>
-      <div id="auth-nav-btn">
-        <button class="btn btn-primary" onclick="navigateTo('auth')">Sign In</button>
+        <!-- Left: Brand Logo & Back Button -->
+        <div class="flex items-center space-x-3">
+          <!-- Universal Back Button -->
+          <button id="global-back-button" onclick="window.goBack()"
+                  class="opacity-0 invisible transition-all duration-200 inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-blue-100 text-slate-700 hover:text-blue-700 text-xs font-bold border border-slate-200/80 back-btn-pill shadow-xs"
+                  title="Return to previous view">
+            <i class="fa-solid fa-arrow-left text-sm"></i>
+            <span class="hidden sm:inline">Back</span>
+          </button>
+
+          <!-- Logo Brand -->
+          <div onclick="window.navigateTo('home')" class="flex items-center space-x-2.5 cursor-pointer group">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
+              <i class="fa-solid fa-graduation-cap text-lg"></i>
+            </div>
+            <div>
+              <div class="flex items-center space-x-1.5">
+                <span class="font-heading font-extrabold text-lg sm:text-xl tracking-tight text-slate-900">CampusConnect</span>
+                <span class="px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-blue-100 text-blue-800">AI</span>
+              </div>
+              <p class="hidden md:block text-[10px] font-medium text-slate-400 leading-none">Smart Student Assistance System</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center: Dynamic Breadcrumbs (desktop only) -->
+        <div id="navbar-breadcrumb" class="hidden lg:flex items-center space-x-2 text-xs font-medium text-slate-500">
+          <span class="text-slate-400">Campus Overview</span>
+        </div>
+
+        <!-- Right Menu Bar: Profile Picture, Help Desk, FAQs, Logout, Mailbox -->
+        <div class="flex items-center space-x-2 sm:space-x-3">
+
+          <!-- Help Desk Button -->
+          <button id="nav-helpdesk-btn" onclick="window.navigateTo('helpdesk')"
+                  class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-700 hover:text-blue-600 hover:bg-slate-100 border border-slate-200 transition cursor-pointer"
+                  title="24/7 Help Desk & Emergency Helplines">
+            <i class="fa-solid fa-headset text-blue-600 text-sm"></i>
+            <span class="hidden sm:inline">Help Desk</span>
+          </button>
+
+          <!-- FAQs Button -->
+          <button id="nav-faq-btn" onclick="CampusFAQ.openFaqModal()"
+                  class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-700 hover:text-blue-600 hover:bg-slate-100 border border-slate-200 transition cursor-pointer"
+                  title="Frequently Asked Questions">
+            <i class="fa-solid fa-circle-question text-indigo-600 text-sm"></i>
+            <span class="hidden sm:inline">FAQs</span>
+          </button>
+
+          <!-- Virtual Mailbox Button with Notification Badge -->
+          <button id="nav-mailbox-btn" onclick="window.navigateTo('mailbox')"
+                  class="relative p-2 rounded-xl text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition cursor-pointer"
+                  title="Virtual Mailbox (Automated Emails)">
+            <i class="fa-regular fa-envelope text-lg"></i>
+            <span class="mailbox-badge hidden absolute -top-1 -right-1 min-w-[18px] h-[18px] text-[10px] font-bold text-white bg-rose-600 rounded-full flex items-center justify-center px-1 shadow-sm">0</span>
+          </button>
+
+          <!-- Profile Picture & Details Container -->
+          <div id="navbar-user-profile" class="relative">
+            <!-- Dynamically populated by CampusAuth.renderAuthUI() -->
+          </div>
+
+          <!-- Stateful Login & Logout Button Group -->
+          <div id="navbar-auth-btn-group" class="flex items-center space-x-2">
+            <!-- Dynamically populated by CampusAuth.renderAuthUI() -->
+          </div>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- ================= TOAST NOTIFICATION CONTAINER ================= -->
-  <div id="toast-container" class="toast-box"></div>
+  <!-- ================= TOAST CONTAINER ================= -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
 
-  <!-- ================= MAIN CONTAINER ================= -->
-  <main class="main-container">
+  <!-- ================= MAIN VIEW CONTAINER ================= -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-    <!-- ========================================================== -->
-    <!-- VIEW 0: LOGIN & REGISTRATION (ROLL NUMBER AUTHENTICATION) -->
-    <!-- ========================================================== -->
+    <!-- ========================================================================= -->
+    <!-- VIEW 0: AUTHENTICATION PORTAL (ROLL NUMBER LOGIN / REGISTRATION GATE)     -->
+    <!-- ========================================================================= -->
     <section id="view-auth" class="app-view">
-      <div class="auth-card">
-        <div class="auth-tabs">
-          <button id="tab-login-btn" class="auth-tab-btn active" onclick="switchAuthTab('login')">Sign In</button>
-          <button id="tab-register-btn" class="auth-tab-btn" onclick="switchAuthTab('register')">Register / Sign Up</button>
+      <div class="py-4 sm:py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+
+          <!-- Left Column: CampusConnect AI Mission & 5 Domains Overview (6 Cols) -->
+          <div class="lg:col-span-6 space-y-6">
+            
+            <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-800 text-xs font-bold">
+              <i class="fa-solid fa-graduation-cap text-blue-600"></i>
+              <span>College Portal &bull; Roll Number Single Sign-On</span>
+            </div>
+
+            <div>
+              <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                Welcome to <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-indigo-600 to-orange-500">CampusConnect AI</span>
+              </h1>
+              <p class="text-slate-600 text-sm sm:text-base mt-3 leading-relaxed">
+                Your all-in-one college assistant. Enter your student Roll Number to access wait-free canteen tokens, lost & found photo/video match alerts, voice-assisted campus navigation, events registration, and facility complaint resolution.
+              </p>
+            </div>
+
+            <!-- 5 Domains Quick Badges -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              
+              <div class="p-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs flex items-start space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 text-sm">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div>
+                  <h3 class="text-xs font-bold text-slate-900">1. Lost &amp; Found System</h3>
+                  <p class="text-[11px] text-slate-500 mt-0.5">Photo/video upload with auto-match email alert.</p>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs flex items-start space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 text-sm">
+                  <i class="fa-solid fa-utensils"></i>
+                </div>
+                <div>
+                  <h3 class="text-xs font-bold text-slate-900">2. Canteen Queue System</h3>
+                  <p class="text-[11px] text-slate-500 mt-0.5">Wait-free tokens, reminder chime &amp; email pass.</p>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs flex items-start space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 text-sm">
+                  <i class="fa-solid fa-compass"></i>
+                </div>
+                <div>
+                  <h3 class="text-xs font-bold text-slate-900">3. Navigation with Voice</h3>
+                  <p class="text-[11px] text-slate-500 mt-0.5">Spoken turn-by-turn routes across campus.</p>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-2xl bg-white border border-slate-200/90 shadow-2xs flex items-start space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 text-sm">
+                  <i class="fa-solid fa-ticket"></i>
+                </div>
+                <div>
+                  <h3 class="text-xs font-bold text-slate-900">4. Events &amp; Games Passes</h3>
+                  <p class="text-[11px] text-slate-500 mt-0.5">Instant registration with automated pass emails.</p>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- College Trust Badges -->
+            <div class="pt-2 flex flex-wrap items-center gap-4 text-xs text-slate-500">
+              <span class="inline-flex items-center space-x-1.5"><i class="fa-solid fa-id-card text-blue-600"></i><span>Roll Number SSO</span></span>
+              <span class="inline-flex items-center space-x-1.5"><i class="fa-solid fa-bell text-orange-500"></i><span>Live Reminder Chimes</span></span>
+              <span class="inline-flex items-center space-x-1.5"><i class="fa-solid fa-microphone text-emerald-600"></i><span>Voice Assistance</span></span>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Login & Register Card (6 Cols) -->
+          <div class="lg:col-span-6">
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-200/90 overflow-hidden">
+
+              <!-- Card Header -->
+              <div class="p-6 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white">
+                <div class="flex items-center justify-between mb-4">
+                  <div class="flex items-center space-x-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-extrabold text-base shadow-sm">
+                      <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <div>
+                      <h2 class="font-heading font-extrabold text-base tracking-tight leading-tight">Student Access Portal</h2>
+                      <p class="text-[11px] text-slate-400">Sign in with Roll Number, Email, or Phone</p>
+                    </div>
+                  </div>
+                  <span class="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/20">
+                    Active 2026
+                  </span>
+                </div>
+
+                <!-- Tab Switcher -->
+                <div class="grid grid-cols-2 p-1 bg-white/10 backdrop-blur-md rounded-2xl text-xs font-bold gap-1">
+                  <button type="button" id="auth-portal-tab-login" onclick="CampusAuth.switchAuthTab('login')"
+                          class="py-2.5 rounded-xl transition-all text-center bg-blue-600 text-white font-bold shadow-md cursor-pointer">
+                    <i class="fa-solid fa-arrow-right-to-bracket mr-1.5"></i> Sign In
+                  </button>
+                  <button type="button" id="auth-portal-tab-register" onclick="CampusAuth.switchAuthTab('register')"
+                          class="py-2.5 rounded-xl transition-all text-center text-slate-300 hover:text-white font-medium cursor-pointer">
+                    <i class="fa-solid fa-user-plus mr-1.5"></i> Register / Sign Up
+                  </button>
+                </div>
+              </div>
+
+              <!-- Error Alert Banner -->
+              <div id="portal-auth-error" class="hidden mx-6 mt-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2">
+              </div>
+
+              <!-- Card Body -->
+              <div class="p-6 sm:p-7">
+
+                <!-- 1. SIGN IN PANE -->
+                <div id="portal-login-pane" class="space-y-4">
+                  <form id="portal-login-form" class="space-y-4">
+                    <div>
+                      <label class="block text-xs font-bold text-slate-700 mb-1.5">
+                        Student Roll Number, College Email, or Phone *
+                      </label>
+                      <div class="relative">
+                        <i class="fa-solid fa-id-card absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                        <input type="text" id="portal-login-id" required
+                               placeholder="e.g. 22CS108 or arunkumar.student@college.edu"
+                               class="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-blue-500 focus:bg-white transition" />
+                      </div>
+                      <p class="text-[10px] text-slate-400 mt-1">Tip: You can enter your college Roll Number directly!</p>
+                    </div>
+
+                    <div>
+                      <div class="flex items-center justify-between mb-1.5">
+                        <label class="text-xs font-bold text-slate-700">Password *</label>
+                        <span class="text-[11px] text-blue-600 font-semibold cursor-pointer" onclick="CampusAuth.demoLogin()">Use demo account</span>
+                      </div>
+                      <div class="relative">
+                        <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                        <input type="password" id="portal-login-password" required
+                               placeholder="Enter your password"
+                               class="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-blue-500 focus:bg-white transition" />
+                      </div>
+                    </div>
+
+                    <button type="submit"
+                            class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-600/25 transition flex items-center justify-center space-x-2 cursor-pointer">
+                      <span>Sign In to CampusConnect</span>
+                      <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                  </form>
+
+                  <!-- 1-Click Fast Demo Login -->
+                  <div class="pt-3 border-t border-slate-100">
+                    <button type="button" onclick="CampusAuth.demoLogin()"
+                            class="w-full py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 text-xs font-bold transition flex items-center justify-center space-x-2 cursor-pointer">
+                      <i class="fa-solid fa-bolt text-emerald-600"></i>
+                      <span>One-Click Demo Student Login (Roll: 22CS108)</span>
+                    </button>
+                  </div>
+
+                  <!-- Switch to Register -->
+                  <div class="text-center pt-2">
+                    <p class="text-xs text-slate-500">
+                      New to campus?
+                      <button type="button" onclick="CampusAuth.switchAuthTab('register')"
+                              class="text-blue-600 font-bold hover:underline cursor-pointer ml-1">
+                        Create student account &rarr;
+                      </button>
+                    </p>
+                  </div>
+                </div>
+
+                <!-- 2. REGISTER PANE -->
+                <div id="portal-register-pane" class="hidden space-y-3.5">
+                  <form id="portal-register-form" class="space-y-3.5">
+                    <div>
+                      <label class="block text-xs font-bold text-slate-700 mb-1">Student Full Name *</label>
+                      <input type="text" id="portal-reg-fullname" required placeholder="e.g. Sneha Roy"
+                             class="w-full px-3.5 py-2 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-blue-500 focus:bg-white transition" />
+                    </div>
+
+                    <div>
+                      <label class="block text-xs font-bold text-slate-700 mb-1">Student Roll Number / Registration ID *</label>
+                      <div class="relative">
+                        <i class="fa-solid fa-id-card absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                        <input type="text" id="portal-reg-roll" required placeholder="e.g. 24CS105"
+                               class="w-full pl-10 pr-3.5 py-2 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-blue-500 focus:bg-white transition font-semibold uppercase" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label class="block text-xs font-bold text-slate-700 mb-1">College Email / Gmail or Phone Number *</label>
+                      <input type="text" id="portal-reg-id" required placeholder="sneha@college.edu or 9876543210"
+                             class="w-full px-3.5 py-2 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-blue-500 focus:bg-white transition" />
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                      <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Department *</label>
+                        <select id="portal-reg-dept" class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200">
+                          <option value="Computer Science & Engineering">CSE</option>
+                          <option value="Electronics & Communication (ECE)">ECE</option>
+                          <option value="Artificial Intelligence & Data Science">AI &amp; DS</option>
+                          <option value="Information Technology">IT</option>
+                          <option value="Mechanical Engineering">MECH</option>
+                          <option value="Civil Engineering">CIVIL</option>
+                          <option value="Biotechnology">Biotech</option>
+                          <option value="MBA / Management">MBA</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Year of Study *</label>
+                        <select id="portal-reg-year" class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200">
+                          <option value="1st Year (Fresher)">1st Year (Fresher)</option>
+                          <option value="2nd Year">2nd Year</option>
+                          <option value="3rd Year">3rd Year</option>
+                          <option value="4th Year">4th Year</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label class="block text-xs font-bold text-slate-700 mb-1">Create Password *</label>
+                      <input type="password" id="portal-reg-password" required placeholder="Create a password (min 4 characters)"
+                             class="w-full px-3.5 py-2 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-blue-500 focus:bg-white transition" />
+                    </div>
+
+                    <button type="submit"
+                            class="w-full mt-1 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-600/25 transition flex items-center justify-center space-x-2 cursor-pointer">
+                      <span>Create Account &amp; Enter Campus</span>
+                      <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                  </form>
+
+                  <!-- Switch to Login -->
+                  <div class="pt-2 text-center border-t border-slate-100">
+                    <p class="text-xs text-slate-500">
+                      Already registered your student profile?
+                      <button type="button" onclick="CampusAuth.switchAuthTab('login')"
+                              class="text-blue-600 font-bold hover:underline cursor-pointer ml-1">
+                        Sign In here &rarr;
+                      </button>
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
         </div>
-
-        <!-- 1. SIGN IN FORM (Roll Number + Password) -->
-        <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
-          <div class="form-group">
-            <label>Student Roll Number or Email *</label>
-            <input type="text" id="login-roll" required placeholder="e.g. 22CS108 or student@college.edu">
-          </div>
-          <div class="form-group">
-            <label>Password *</label>
-            <input type="password" id="login-password" required placeholder="Enter password">
-          </div>
-          <button type="submit" class="btn btn-primary w-full">Sign In to CampusConnect</button>
-          <button type="button" class="btn btn-secondary w-full" onclick="demoLogin()">
-            ⚡ One-Click Demo Login (Roll: 22CS108)
-          </button>
-        </form>
-
-        <!-- 2. REGISTRATION FORM (Enter Roll Number) -->
-        <form id="register-form" class="auth-form hidden" onsubmit="handleRegister(event)">
-          <div class="form-group">
-            <label>Student Full Name *</label>
-            <input type="text" id="reg-name" required placeholder="e.g. Sneha Roy">
-          </div>
-          <div class="form-group">
-            <label>Student Roll Number *</label>
-            <input type="text" id="reg-roll" required placeholder="e.g. 24CS105" style="text-transform: uppercase;">
-          </div>
-          <div class="form-group">
-            <label>College Email or Phone *</label>
-            <input type="text" id="reg-email" required placeholder="sneha@college.edu">
-          </div>
-          <div class="form-group">
-            <label>Department</label>
-            <select id="reg-dept">
-              <option value="Computer Science & Engineering">Computer Science (CSE)</option>
-              <option value="Information Technology">Information Tech (IT)</option>
-              <option value="Artificial Intelligence">AI & Data Science</option>
-              <option value="Mechanical Engineering">Mechanical</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Create Password *</label>
-            <input type="password" id="reg-password" required placeholder="Minimum 4 characters">
-          </div>
-          <button type="submit" class="btn btn-primary w-full">Create Account & Enter Campus</button>
-        </form>
       </div>
     </section>
 
-    <!-- ========================================================== -->
-    <!-- VIEW 1: HOME PAGE (MENU BAR + 5 DOMAINS)                   -->
-    <!-- ========================================================== -->
+    <!-- ========================================================================= -->
+    <!-- VIEW 1: HOMEPAGE (CAMPUSCONNECT AI DASHBOARD & 5 DOMAINS)                 -->
+    <!-- ========================================================================= -->
     <section id="view-home" class="app-view hidden">
-      
-      <!-- Home Page Menu Bar (Profile Picture, Help Desk, FAQs, Log Out) -->
-      <div class="home-menu-bar">
-        <!-- Profile Picture & Details -->
-        <div class="user-profile-badge" onclick="openProfileModal()">
-          <img id="home-user-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80" alt="Avatar">
+
+      <!-- Home Page Menu Bar (Profile Picture, Help Desk, Log Out Button, and FAQs) -->
+      <div id="home-page-menu-bar" class="mb-6 bg-white rounded-2xl border border-slate-200/90 p-4 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+        <!-- Left: Profile Picture & Student Identity -->
+        <div class="flex items-center space-x-3.5 cursor-pointer w-full md:w-auto" onclick="CampusAuth.openProfileModal()" title="Click to view or edit student profile">
+          <div class="relative shrink-0">
+            <img id="home-user-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80"
+                 alt="Student Profile Picture" class="w-12 h-12 rounded-full object-cover ring-2 ring-blue-500 shadow-sm" />
+            <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 ring-2 ring-white" title="Active Student"></span>
+          </div>
           <div>
-            <h3 id="home-user-name">Student Name</h3>
-            <p>Roll No: <strong id="home-user-roll" class="text-blue">22CS108</strong> &bull; <span id="home-user-dept">CSE</span></p>
+            <div class="flex items-center space-x-2">
+              <h2 id="home-user-name" class="font-heading font-extrabold text-base text-slate-900 leading-tight">Student Name</h2>
+              <span id="home-user-dept-pill" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-800">CSE</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5 flex items-center gap-2">
+              <span>Roll Number: <strong id="home-user-roll" class="text-blue-700 font-bold">22CS108</strong></span>
+              <span>&bull;</span>
+              <span class="text-blue-600 hover:underline text-[11px] font-semibold"><i class="fa-solid fa-user-pen text-[10px] mr-0.5"></i> Edit Profile</span>
+            </p>
           </div>
         </div>
 
-        <!-- Menu Bar Action Buttons -->
-        <div class="menu-buttons-group">
-          <button class="btn btn-secondary" onclick="navigateTo('helpdesk')">
-            <i class="fa-solid fa-headset text-blue"></i> Help Desk
+        <!-- Right Menu Bar Buttons: Profile Picture, Help Desk, FAQs, Log Out -->
+        <div class="flex items-center flex-wrap gap-2 w-full md:w-auto justify-start md:justify-end">
+          <!-- Help Desk Button -->
+          <button type="button" onclick="window.navigateTo('helpdesk')"
+                  class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-blue-700 bg-slate-100 hover:bg-blue-50 border border-slate-200 transition shadow-2xs cursor-pointer"
+                  title="24/7 Campus Emergency Helplines & AI Assistant">
+            <i class="fa-solid fa-headset text-blue-600"></i>
+            <span>Help Desk</span>
           </button>
-          <button class="btn btn-secondary" onclick="openModal('modal-faq')">
-            <i class="fa-solid fa-circle-question text-purple"></i> FAQs
+
+          <!-- FAQs Button -->
+          <button type="button" onclick="CampusFAQ.openFaqModal()"
+                  class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-indigo-700 bg-slate-100 hover:bg-indigo-50 border border-slate-200 transition shadow-2xs cursor-pointer"
+                  title="Frequently Asked Questions">
+            <i class="fa-solid fa-circle-question text-indigo-600"></i>
+            <span>FAQs</span>
           </button>
-          <button class="btn btn-secondary" onclick="navigateTo('mailbox')">
-            <i class="fa-regular fa-envelope text-blue"></i> Mailbox
+
+          <!-- Virtual Mailbox Button -->
+          <button type="button" onclick="window.navigateTo('mailbox')"
+                  class="relative inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 hover:text-blue-700 bg-slate-100 hover:bg-blue-50 border border-slate-200 transition shadow-2xs cursor-pointer"
+                  title="Virtual Mailbox (Automated Emails)">
+            <i class="fa-regular fa-envelope text-blue-600"></i>
+            <span>Mailbox</span>
+            <span class="mailbox-badge hidden px-1.5 py-0.2 text-[10px] font-bold text-white bg-rose-600 rounded-full">0</span>
           </button>
-          <button class="btn btn-danger" onclick="logout()">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+
+          <!-- Log Out Button -->
+          <button type="button" onclick="CampusAuth.logout()"
+                  class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition shadow-2xs cursor-pointer"
+                  title="Log out of CampusConnect AI">
+            <i class="fa-solid fa-arrow-right-from-bracket text-xs"></i>
+            <span>Log Out</span>
           </button>
         </div>
       </div>
 
-      <!-- Five Specialized Campus Domains Grid -->
-      <h2 class="section-title">Five Specialized Campus Domains</h2>
-      <div class="cards-grid">
-
-        <!-- Domain 1: Lost and Found -->
-        <div class="domain-card" onclick="navigateTo('lost-found')">
-          <div>
-            <div class="card-icon icon-lostfound"><i class="fa-solid fa-magnifying-glass"></i></div>
-            <h3>1. Lost and Found System</h3>
-            <p>Upload photo or video of lost or found objects. When an item matches specifications, an automatic notification email is immediately dispatched!</p>
+      <!-- Hero Welcome Banner -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white p-8 sm:p-12 mb-8 shadow-xl">
+        <div class="absolute -right-12 -bottom-12 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 max-w-3xl">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-xs font-semibold text-blue-200 mb-4 border border-white/10">
+            <i class="fa-solid fa-sparkles text-amber-400"></i>
+            <span>CampusConnect AI Portal &bull; 5 Active Domains</span>
           </div>
-          <button class="btn btn-primary mt-4">Open Lost & Found &rarr;</button>
+          <h1 class="font-heading text-3xl sm:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
+            Smart College Life <br class="hidden sm:inline"/><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-orange-400">Simplified with AI</span>
+          </h1>
+          <p class="text-sm sm:text-base text-slate-300 mb-6 max-w-2xl leading-relaxed">
+            Generate wait-free canteen tokens with reminder chimes, find lost items with automated matching emails, navigate university routes with spoken voice assistance, register for events and sports, and report campus issues.
+          </p>
+
+          <!-- Quick Action Buttons -->
+          <div class="flex flex-wrap gap-3">
+            <button type="button" onclick="window.navigateTo('canteen')"
+                    class="px-5 py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs sm:text-sm font-bold shadow-lg shadow-orange-500/30 transition flex items-center space-x-2 cursor-pointer">
+              <i class="fa-solid fa-utensils"></i>
+              <span>Canteen Token (Wait-Free)</span>
+            </button>
+            <button type="button" onclick="window.navigateTo('lost-found')"
+                    class="px-5 py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-bold shadow-lg shadow-rose-600/30 transition flex items-center space-x-2 cursor-pointer">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Lost &amp; Found Match</span>
+            </button>
+            <button type="button" onclick="window.navigateTo('navigation')"
+                    class="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold shadow-lg shadow-emerald-600/30 transition flex items-center space-x-2 cursor-pointer">
+              <i class="fa-solid fa-volume-high"></i>
+              <span>Voice Campus Route</span>
+            </button>
+            <button type="button" onclick="CampusFAQ.openFaqModal()"
+                    class="px-5 py-3 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-md text-white text-xs sm:text-sm font-bold border border-white/20 transition flex items-center space-x-2 cursor-pointer">
+              <i class="fa-solid fa-circle-question"></i>
+              <span>View FAQs</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overview Metrics -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
+          <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-bell-concierge"></i>
+          </div>
+          <div>
+            <div class="text-2xl font-extrabold text-slate-900">0 Mins</div>
+            <div class="text-xs text-slate-500">Canteen Queue Wait</div>
+          </div>
         </div>
 
-        <!-- Domain 2: Canteen Queue System -->
-        <div class="domain-card" onclick="navigateTo('canteen')">
-          <div>
-            <div class="card-icon icon-canteen"><i class="fa-solid fa-utensils"></i></div>
-            <h3>2. Canteen Queue System</h3>
-            <p>Generate wait-free digital tokens without standing in physical queues. Includes automated email receipts and audio reminder chimes!</p>
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
+          <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-circle-check"></i>
           </div>
-          <button class="btn btn-warning mt-4">Open Canteen Tokens &rarr;</button>
+          <div>
+            <div class="text-2xl font-extrabold text-slate-900">94%</div>
+            <div class="text-xs text-slate-500">Lost Item Match Rate</div>
+          </div>
         </div>
 
-        <!-- Domain 3: Campus Navigation -->
-        <div class="domain-card" onclick="navigateTo('navigation')">
-          <div>
-            <div class="card-icon icon-nav"><i class="fa-solid fa-compass"></i></div>
-            <h3>3. Navigation System (Voice Assistance)</h3>
-            <p>Know all routes of university classrooms and labs with spoken Voice Assistance step-by-step guidance.</p>
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
+          <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-ticket"></i>
           </div>
-          <button class="btn btn-secondary mt-4">Open Voice Navigation &rarr;</button>
+          <div>
+            <div class="text-2xl font-extrabold text-slate-900">Instant</div>
+            <div class="text-xs text-slate-500">Event Pass Automation</div>
+          </div>
         </div>
 
-        <!-- Domain 4: Events and Games -->
-        <div class="domain-card" onclick="navigateTo('events-games')">
-          <div>
-            <div class="card-icon icon-events"><i class="fa-solid fa-ticket"></i></div>
-            <h3>4. Events & Games Registration</h3>
-            <p>Register for hackathons, college fests, cricket, and sports tournaments with automated admission ticket passes.</p>
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex items-center space-x-4">
+          <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-bullhorn"></i>
           </div>
-          <button class="btn btn-primary mt-4">Register for Events &rarr;</button>
+          <div>
+            <div class="text-2xl font-extrabold text-slate-900">100%</div>
+            <div class="text-xs text-slate-500">Complaint Tracking</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Five Core Domains Selection Hub -->
+      <div class="mb-8">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="text-2xl font-extrabold text-slate-900 font-heading">Five Specialized Campus Domains</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">Select any domain below to access dedicated tools and automated notifications.</p>
+          </div>
         </div>
 
-        <!-- Domain 5: Student Complaints & Issues -->
-        <div class="domain-card" onclick="navigateTo('complaints-issues')">
-          <div>
-            <div class="card-icon icon-complaint"><i class="fa-solid fa-screwdriver-wrench"></i></div>
-            <h3>5. Complaints & Campus Issues</h3>
-            <p>Post photo or video proof of broken benches, water cooler faults, or mess issues with automated ticket tracking receipts.</p>
-          </div>
-          <button class="btn btn-secondary mt-4">Report Campus Issue &rarr;</button>
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
+          <!-- DOMAIN 1: Lost and Found System -->
+          <div onclick="window.navigateTo('lost-found')"
+               class="glass-card rounded-2xl p-6 border border-slate-200 cursor-pointer flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-100 text-rose-800">
+                  Domain 1 &bull; Auto Mail
+                </span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 group-hover:text-rose-600 transition-colors">Lost and Found System</h3>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                Add photo or video of objects lost or found. When an item matches specifications, an automatic notification email is immediately dispatched to the user!
+              </p>
+            </div>
+            <button type="button" onclick="event.stopPropagation(); window.navigateTo('lost-found')"
+                    class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-rose-600 w-full text-left bg-transparent border-none p-0 cursor-pointer">
+              <span>Report or Search Items</span>
+              <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+            </button>
+          </div>
+
+          <!-- DOMAIN 2: Canteen Queue System -->
+          <div onclick="window.navigateTo('canteen')"
+               class="glass-card rounded-2xl p-6 border border-orange-200 bg-orange-50/20 cursor-pointer flex flex-col justify-between group ring-1 ring-orange-200/50">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                  <i class="fa-solid fa-utensils"></i>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-orange-100 text-orange-800">
+                  Domain 2 &bull; Token &amp; Chime
+                </span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 group-hover:text-orange-600 transition-colors">Canteen Queue System</h3>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                Generate digital tokens without waiting in queues. Includes automated confirmation mail and an audio reminder chime system when your food is ready!
+              </p>
+            </div>
+            <button type="button" onclick="event.stopPropagation(); window.navigateTo('canteen')"
+                    class="mt-6 pt-4 border-t border-orange-100 flex items-center justify-between text-xs font-bold text-orange-600 w-full text-left bg-transparent border-none p-0 cursor-pointer">
+              <span>Order &amp; Generate Token</span>
+              <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+            </button>
+          </div>
+
+          <!-- DOMAIN 3: Navigation System (Voice Assistance) -->
+          <div onclick="window.navigateTo('navigation')"
+               class="glass-card rounded-2xl p-6 border border-slate-200 cursor-pointer flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                  <i class="fa-solid fa-compass"></i>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800">
+                  Domain 3 &bull; Voice Guide
+                </span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">Campus Navigation System</h3>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                Discover campus routes, labs, and halls with interactive 2D maps and browser <strong>Voice Assistance</strong> that speaks directions aloud step-by-step.
+              </p>
+            </div>
+            <button type="button" onclick="event.stopPropagation(); window.navigateTo('navigation')"
+                    class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-600 w-full text-left bg-transparent border-none p-0 cursor-pointer">
+              <span>Explore Routes &amp; Voice</span>
+              <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+            </button>
+          </div>
+
+          <!-- DOMAIN 4: Events and Games Registration -->
+          <div onclick="window.navigateTo('events-games')"
+               class="glass-card rounded-2xl p-6 border border-slate-200 cursor-pointer flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                  <i class="fa-solid fa-ticket"></i>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-100 text-blue-800">
+                  Domain 4 &bull; Digital Passes
+                </span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Events &amp; Games Registration</h3>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                Register for hackathons, workshops, and sports tournaments (cricket, football, badminton, esports) with automated digital pass dispatch to your email!
+              </p>
+            </div>
+            <button type="button" onclick="event.stopPropagation(); window.navigateTo('events-games')"
+                    class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-blue-600 w-full text-left bg-transparent border-none p-0 cursor-pointer">
+              <span>Register for Events / Tournaments</span>
+              <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+            </button>
+          </div>
+
+          <!-- DOMAIN 5: Student Complaints and Campus Issues -->
+          <div onclick="window.navigateTo('complaints-issues')"
+               class="glass-card rounded-2xl p-6 border border-slate-200 cursor-pointer flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                  <i class="fa-solid fa-screwdriver-wrench"></i>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-indigo-100 text-indigo-800">
+                  Domain 5 &bull; Photo/Video
+                </span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">Complaints &amp; Campus Issues</h3>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                Report broken benches, drinking water shortage, electrical faults, or mess issues with photo/video evidence, AI priority triage, and email tracking receipts.
+              </p>
+            </div>
+            <button type="button" onclick="event.stopPropagation(); window.navigateTo('complaints-issues')"
+                    class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-indigo-600 w-full text-left bg-transparent border-none p-0 cursor-pointer">
+              <span>Report &amp; Track Status</span>
+              <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+            </button>
+          </div>
+
+          <!-- Help Desk & Virtual Mailbox Quick Tile -->
+          <div onclick="window.navigateTo('mailbox')"
+               class="glass-card rounded-2xl p-6 border border-slate-200 cursor-pointer flex flex-col justify-between group bg-slate-50/50">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                  <i class="fa-solid fa-envelope-open-text"></i>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-teal-100 text-teal-800">
+                  Mailbox &amp; Help Desk
+                </span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 group-hover:text-teal-600 transition-colors">Virtual Mailbox &amp; Support</h3>
+              <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+                Inspect all automated emails sent to you in real-time (match alerts, canteen tokens, event tickets, complaint receipts) or get 24/7 help desk assistance.
+              </p>
+            </div>
+            <button type="button" onclick="event.stopPropagation(); window.navigateTo('mailbox')"
+                    class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-teal-600 w-full text-left bg-transparent border-none p-0 cursor-pointer">
+              <span>Open Mailbox &bull; Read Alerts</span>
+              <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+            </button>
+          </div>
+
+        </div>
       </div>
     </section>
 
-    <!-- ========================================================== -->
-    <!-- DOMAIN 1: LOST & FOUND VIEW                                -->
-    <!-- ========================================================== -->
+    <!-- ========================================================================= -->
+    <!-- DOMAIN 1: LOST & FOUND SYSTEM                                             -->
+    <!-- ========================================================================= -->
     <section id="view-lost-found" class="app-view hidden">
-      <div class="view-header">
-        <button class="btn btn-secondary" onclick="navigateTo('home')">&larr; Back</button>
-        <h2>Lost and Found System</h2>
-        <button class="btn btn-primary" onclick="openModal('modal-lost-found')">+ Report Lost / Found Item</button>
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-200">
+        <div class="flex items-center space-x-3">
+          <button onclick="window.goBack()" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition cursor-pointer">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div>
+            <h2 class="text-2xl font-extrabold text-slate-900 font-heading">Lost and Found System</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Add photo/video &bull; Automatic similarity match &bull; Automated mail alerts</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          <button onclick="CampusLostFound.openReportModal('lost')"
+                  class="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-sm transition flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>Report Lost Item</span>
+          </button>
+          <button onclick="CampusLostFound.openReportModal('found')"
+                  class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-hand-holding-heart"></i>
+            <span>Report Found Item</span>
+          </button>
+        </div>
       </div>
 
-      <div class="search-bar">
-        <input type="text" id="lf-search" placeholder="Search calculator, wallet, lab..." oninput="renderLostFound()">
+      <!-- Filters & Search -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs mb-6 flex flex-col md:flex-row gap-4 justify-between items-center">
+        <div class="flex flex-wrap gap-1.5 w-full md:w-auto">
+          <button onclick="CampusLostFound.setFilter('all')" data-filter="all" class="lf-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white transition cursor-pointer">All Items</button>
+          <button onclick="CampusLostFound.setFilter('lost')" data-filter="lost" class="lf-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 transition cursor-pointer">Lost Belongings</button>
+          <button onclick="CampusLostFound.setFilter('found')" data-filter="found" class="lf-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 transition cursor-pointer">Found Items</button>
+          <button onclick="CampusLostFound.setFilter('matched')" data-filter="matched" class="lf-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 transition cursor-pointer">Matched Items</button>
+        </div>
+
+        <div class="relative w-full md:w-72">
+          <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+          <input type="text" id="lost-found-search" oninput="CampusLostFound.renderItems()" placeholder="Search calculator, wallet, keys..."
+                 class="w-full pl-9 pr-3.5 py-2 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-blue-500 focus:bg-white transition" />
+        </div>
       </div>
 
-      <div id="lost-found-list" class="cards-grid">
-        <!-- Rendered by JavaScript -->
+      <!-- Items Grid -->
+      <div id="lost-found-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Injected by lost-found.js -->
       </div>
     </section>
 
-    <!-- ========================================================== -->
-    <!-- DOMAIN 2: CANTEEN QUEUE SYSTEM VIEW                        -->
-    <!-- ========================================================== -->
+    <!-- ========================================================================= -->
+    <!-- DOMAIN 2: CANTEEN QUEUE SYSTEM (NEW)                                      -->
+    <!-- ========================================================================= -->
     <section id="view-canteen" class="app-view hidden">
-      <div class="view-header">
-        <button class="btn btn-secondary" onclick="navigateTo('home')">&larr; Back</button>
-        <h2>Canteen Queue System (Wait-Free)</h2>
-      </div>
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-200">
+        <div class="flex items-center space-x-3">
+          <button onclick="window.goBack()" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition cursor-pointer">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div>
+            <h2 class="text-2xl font-extrabold text-slate-900 font-heading">Canteen Queue System</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Wait-free digital token generation &bull; Mail automation &bull; Live reminder chimes</p>
+          </div>
+        </div>
 
-      <!-- Canteen Menu -->
-      <h3>Food Menu</h3>
-      <div class="cards-grid">
-        <div class="canteen-item-card">
-          <h4>Masala Dosa & Chutney</h4>
-          <p>₹60 &bull; Prep Time: 5 mins</p>
-          <button class="btn btn-warning" onclick="generateCanteenToken('Masala Dosa', 60, 'Counter 1 (Meals)')">
-            Generate Wait-Free Token
-          </button>
-        </div>
-        <div class="canteen-item-card">
-          <h4>Veg Fried Rice & Manchurian</h4>
-          <p>₹90 &bull; Prep Time: 7 mins</p>
-          <button class="btn btn-warning" onclick="generateCanteenToken('Veg Fried Rice', 90, 'Counter 2 (Chinese)')">
-            Generate Wait-Free Token
-          </button>
-        </div>
-        <div class="canteen-item-card">
-          <h4>Filter Coffee / Tea</h4>
-          <p>₹20 &bull; Prep Time: 2 mins</p>
-          <button class="btn btn-warning" onclick="generateCanteenToken('Filter Coffee', 20, 'Counter 3 (Beverages)')">
-            Generate Wait-Free Token
+        <!-- Chime Test & Fast Token Actions -->
+        <div class="flex items-center space-x-2">
+          <button onclick="CampusCanteen.playReminderChime(); window.showAppToast('🔔 Audio Chime Tested! Sound is active.', 'info');"
+                  class="px-3.5 py-2 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer"
+                  title="Test Audio Reminder Chime">
+            <i class="fa-solid fa-bell"></i>
+            <span>Test Chime Sound</span>
           </button>
         </div>
       </div>
 
-      <!-- Live Queue & Reminder System -->
-      <h3 class="mt-6">Live Queue Display & Reminder System</h3>
-      <div id="canteen-queue-container" class="queue-list">
-        <!-- Dynamic tokens injected here -->
+      <!-- Reminder Banner (Audio Chime Alert Box) -->
+      <div id="canteen-reminder-alert" class="hidden mb-6 p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-400 shadow-md">
+        <div class="flex items-start justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-lg animate-bounce">
+              <i class="fa-solid fa-bell fa-shake"></i>
+            </div>
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="text-xs font-black uppercase tracking-wider text-emerald-800 bg-emerald-200 px-2 py-0.5 rounded-full">
+                  Order Ready Reminder
+                </span>
+                <span id="reminder-token-no" class="font-extrabold text-slate-900 text-base">#CT-101</span>
+              </div>
+              <p class="text-xs text-slate-700 font-medium mt-1">
+                Your order is ready for immediate collection at <strong id="reminder-counter-name" class="text-emerald-800">Counter 1</strong>!
+              </p>
+              <p id="reminder-items-text" class="text-[11px] text-slate-500 mt-0.5"></p>
+            </div>
+          </div>
+          <button type="button" onclick="CampusCanteen.dismissReminderBanner()" class="text-slate-400 hover:text-slate-700 p-1 cursor-pointer">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Menu Category Filters & Search -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs mb-6 flex flex-col md:flex-row gap-4 justify-between items-center">
+        <div class="flex flex-wrap gap-1.5 w-full md:w-auto">
+          <button onclick="CampusCanteen.setCategory('all')" data-cat="all" class="canteen-cat-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-orange-600 text-white transition cursor-pointer">All Items</button>
+          <button onclick="CampusCanteen.setCategory('breakfast')" data-cat="breakfast" class="canteen-cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 hover:bg-slate-100 transition cursor-pointer">Breakfast</button>
+          <button onclick="CampusCanteen.setCategory('meals')" data-cat="meals" class="canteen-cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 hover:bg-slate-100 transition cursor-pointer">Lunch / Meals</button>
+          <button onclick="CampusCanteen.setCategory('fast food')" data-cat="fast food" class="canteen-cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 hover:bg-slate-100 transition cursor-pointer">Fast Food</button>
+          <button onclick="CampusCanteen.setCategory('snacks')" data-cat="snacks" class="canteen-cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 hover:bg-slate-100 transition cursor-pointer">Snacks</button>
+          <button onclick="CampusCanteen.setCategory('beverages')" data-cat="beverages" class="canteen-cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 hover:bg-slate-100 transition cursor-pointer">Beverages</button>
+        </div>
+
+        <div class="relative w-full md:w-72">
+          <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+          <input type="text" id="canteen-search-input" oninput="CampusCanteen.renderMenu()" placeholder="Search dosa, thali, shake..."
+                 class="w-full pl-9 pr-3.5 py-2 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-orange-500 focus:bg-white transition" />
+        </div>
+      </div>
+
+      <!-- Main Layout: Food Menu (Left 8 Cols) + Live Queue Board (Right 4 Cols) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Food Menu Grid -->
+        <div class="lg:col-span-8 space-y-6">
+          <div id="canteen-menu-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            <!-- Populated by canteen.js -->
+          </div>
+
+          <!-- Sticky Live Cart & Token Generation Bar -->
+          <div id="canteen-cart-bar" class="hidden sticky bottom-4 z-30 p-4 rounded-2xl bg-gradient-to-r from-slate-900 to-orange-950 text-white shadow-2xl border border-orange-500/30">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center space-x-2">
+                  <span id="cart-items-count" class="px-2 py-0.5 rounded-md text-[11px] font-black uppercase tracking-wider bg-orange-600 text-white">0 Items</span>
+                  <span id="cart-total-price" class="text-xl font-extrabold text-orange-400">₹0</span>
+                  <span class="text-xs text-slate-400">&bull; Est: <span id="cart-prep-time" class="font-bold text-white">~5 mins</span></span>
+                </div>
+                <p id="cart-items-preview" class="text-xs text-slate-300 truncate max-w-md mt-1"></p>
+              </div>
+
+              <div class="flex items-center space-x-2 shrink-0">
+                <button type="button" onclick="CampusCanteen.clearCart()" class="px-3 py-2 text-xs text-slate-400 hover:text-white transition cursor-pointer">
+                  Clear
+                </button>
+                <button type="button" onclick="CampusCanteen.generateToken()"
+                        class="px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold shadow-lg shadow-orange-500/40 transition flex items-center space-x-2 cursor-pointer">
+                  <i class="fa-solid fa-receipt"></i>
+                  <span>Generate Wait-Free Token</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Live Active Queue Board & Call Token Simulator -->
+        <div class="lg:col-span-4 space-y-6">
+          <div class="bg-white rounded-3xl border border-slate-200/90 p-5 shadow-xs">
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+              <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center text-sm font-bold">
+                  <i class="fa-solid fa-list-ol"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-slate-900 text-sm">Live Token Queue</h3>
+                  <p class="text-[11px] text-slate-400">Digital counter updates</p>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800">
+                <i class="fa-solid fa-circle text-[8px] animate-pulse mr-1"></i> Live
+              </span>
+            </div>
+
+            <!-- Active Tokens List -->
+            <div id="canteen-queue-list" class="space-y-3">
+              <!-- Populated by canteen.js -->
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <!-- ========================================================== -->
-    <!-- DOMAIN 3: CAMPUS NAVIGATION SYSTEM VIEW                    -->
-    <!-- ========================================================== -->
+    <!-- ========================================================================= -->
+    <!-- DOMAIN 3: NAVIGATION SYSTEM (VOICE ASSISTANCE)                             -->
+    <!-- ========================================================================= -->
     <section id="view-navigation" class="app-view hidden">
-      <div class="view-header">
-        <button class="btn btn-secondary" onclick="navigateTo('home')">&larr; Back</button>
-        <h2>Campus Navigation System (Voice Assistance)</h2>
-        <button class="btn btn-primary" onclick="startMicSearch()">🎙️ Speak Destination</button>
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-200">
+        <div class="flex items-center space-x-3">
+          <button onclick="window.goBack()" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition cursor-pointer">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div>
+            <h2 class="text-2xl font-extrabold text-slate-900 font-heading">Campus Navigation System</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Explore classrooms &amp; labs with turn-by-turn spoken Voice Assistance</p>
+          </div>
+        </div>
+
+        <!-- Voice Search Button -->
+        <div class="flex items-center space-x-2">
+          <button id="btn-mic-search" type="button" onclick="CampusNavigator.startVoiceSearch()"
+                  class="px-4 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold transition flex items-center gap-1.5 shadow-xs cursor-pointer"
+                  title="Speak campus room or destination">
+            <i class="fa-solid fa-microphone"></i>
+            <span>🎙️ Speak Destination</span>
+          </button>
+        </div>
       </div>
 
-      <!-- Voice Control Bar -->
-      <div id="voice-wave-box" class="voice-wave-box hidden">
-        <div class="voice-bars">
-          <span class="voice-bar"></span>
-          <span class="voice-bar"></span>
-          <span class="voice-bar"></span>
-          <span class="voice-bar"></span>
+      <!-- Search & Filters -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs mb-6 flex flex-col md:flex-row gap-4 justify-between items-center">
+        <div class="relative w-full md:w-80">
+          <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+          <input type="text" id="nav-search-input" oninput="CampusNavigator.renderDirectory()"
+                 placeholder="Search TB-305, AI Lab, Physics, Canteen..."
+                 class="w-full pl-9 pr-3.5 py-2 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-blue-500 focus:bg-white transition" />
         </div>
-        <span id="voice-status-text">🔊 Voice Assistance Speaking...</span>
-        <div>
-          <button class="btn btn-secondary" onclick="pauseVoice()">Pause</button>
-          <button class="btn btn-secondary" onclick="resumeVoice()">Resume</button>
-          <button class="btn btn-danger" onclick="stopVoice()">Stop</button>
+
+        <div class="flex flex-wrap gap-2 w-full md:w-auto">
+          <select onchange="CampusNavigator.setFilter('block', this.value)" class="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700">
+            <option value="all">All Campus Blocks</option>
+            <option value="Tech Block A">Tech Block A</option>
+            <option value="Tech Block B">Tech Block B</option>
+            <option value="Main Academic">Main Academic Block</option>
+            <option value="Science Block">Science Block</option>
+            <option value="Library">Library Block</option>
+            <option value="Amenities">Student Amenities</option>
+          </select>
+
+          <select onchange="CampusNavigator.setFilter('category', this.value)" class="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700">
+            <option value="all">All Room Types</option>
+            <option value="Lab">Computer &amp; Science Labs</option>
+            <option value="Classroom">Classrooms &amp; Halls</option>
+            <option value="Auditorium">Auditoriums</option>
+            <option value="Amenity">Food Court &amp; Medical</option>
+          </select>
         </div>
       </div>
 
-      <!-- Navigation Places List -->
-      <div class="cards-grid">
-        <div class="nav-card" onclick="selectRoute('AI & Machine Learning Lab', 'Tech Block A', '2nd Floor, Room TB-205', 'Take elevator in Tech Block A to Floor 2, turn left past the server room, room TB-205 is on your right.')">
-          <h4>AI & Machine Learning Lab (TB-205)</h4>
-          <p>Tech Block A &bull; Floor 2</p>
-          <button class="btn btn-primary mt-2">🔊 Listen Route (Voice Assistance)</button>
+      <!-- Navigation Content Grid (Places on Left, Active Route Display & Blueprint on Right) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Places List (5 Cols) -->
+        <div class="lg:col-span-5 space-y-3 max-h-[700px] overflow-y-auto pr-1" id="nav-places-list">
+          <!-- Injected by navigation.js -->
         </div>
-        <div class="nav-card" onclick="selectRoute('Physics Science Lab', 'Science Block', 'Ground Floor, Room SB-004', 'Enter Science Block main arch, walk 20 meters straight down the hallway, the physics laboratory is opposite the chemistry lab.')">
-          <h4>Physics Science Lab (SB-004)</h4>
-          <p>Science Block &bull; Ground Floor</p>
-          <button class="btn btn-primary mt-2">🔊 Listen Route (Voice Assistance)</button>
+
+        <!-- Right: Active Route Details with Spoken Voice Guidance (7 Cols) -->
+        <div class="lg:col-span-7 space-y-6">
+          <div id="nav-route-display">
+            <!-- Populated by navigation.js -->
+          </div>
+
+          <!-- 2D Visual Blueprint -->
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                <i class="fa-solid fa-map text-blue-600"></i>
+                <span>2D Campus Blueprint Layout</span>
+              </h4>
+              <span id="map-status-pill" class="text-xs text-slate-500 font-medium">Select a destination above</span>
+            </div>
+
+            <div id="campus-visual-map" class="map-canvas-container map-grid-pattern h-56 p-4 flex flex-wrap items-center justify-around gap-2">
+              <div class="campus-node p-3 rounded-xl bg-white border border-slate-300 shadow-sm text-center w-28 cursor-pointer" data-block="Main Academic">
+                <i class="fa-solid fa-landmark text-blue-600 text-base mb-1"></i>
+                <div class="text-[10px] font-bold text-slate-800 leading-tight">Main Block</div>
+                <div class="text-[9px] text-slate-400">MB-101 / Dean</div>
+              </div>
+              <div class="campus-node p-3 rounded-xl bg-white border border-slate-300 shadow-sm text-center w-28 cursor-pointer" data-block="Tech Block A">
+                <i class="fa-solid fa-microchip text-indigo-600 text-base mb-1"></i>
+                <div class="text-[10px] font-bold text-slate-800 leading-tight">Tech Block A</div>
+                <div class="text-[9px] text-slate-400">AI / ML Labs</div>
+              </div>
+              <div class="campus-node p-3 rounded-xl bg-white border border-slate-300 shadow-sm text-center w-28 cursor-pointer" data-block="Science Block">
+                <i class="fa-solid fa-flask text-emerald-600 text-base mb-1"></i>
+                <div class="text-[10px] font-bold text-slate-800 leading-tight">Science Block</div>
+                <div class="text-[9px] text-slate-400">Physics &amp; Chem</div>
+              </div>
+              <div class="campus-node p-3 rounded-xl bg-white border border-slate-300 shadow-sm text-center w-28 cursor-pointer" data-block="Amenities">
+                <i class="fa-solid fa-utensils text-orange-600 text-base mb-1"></i>
+                <div class="text-[10px] font-bold text-slate-800 leading-tight">Food Court</div>
+                <div class="text-[9px] text-slate-400">Canteen &amp; Clinic</div>
+              </div>
+              <div class="campus-node p-3 rounded-xl bg-white border border-slate-300 shadow-sm text-center w-28 cursor-pointer" data-block="Library">
+                <i class="fa-solid fa-book-bookmark text-purple-600 text-base mb-1"></i>
+                <div class="text-[10px] font-bold text-slate-800 leading-tight">Library Tower</div>
+                <div class="text-[9px] text-slate-400">Clock Tower</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="nav-card" onclick="selectRoute('Central Campus Library', 'Library Block', '1st Floor', 'Walk through the Central Quadrangle toward the clock tower, enter the glass double doors, digital circulation desk is on the 1st floor.')">
-          <h4>Central Campus Library</h4>
-          <p>Library Block &bull; 1st Floor</p>
-          <button class="btn btn-primary mt-2">🔊 Listen Route (Voice Assistance)</button>
-        </div>
+
       </div>
     </section>
 
-    <!-- ========================================================== -->
-    <!-- DOMAIN 4: EVENTS AND GAMES REGISTRATION VIEW               -->
-    <!-- ========================================================== -->
+    <!-- ========================================================================= -->
+    <!-- DOMAIN 4: EVENTS AND GAMES REGISTRATION                                   -->
+    <!-- ========================================================================= -->
     <section id="view-events-games" class="app-view hidden">
-      <div class="view-header">
-        <button class="btn btn-secondary" onclick="navigateTo('home')">&larr; Back</button>
-        <h2>Events & Games Registration</h2>
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-200">
+        <div class="flex items-center space-x-3">
+          <button onclick="window.goBack()" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition cursor-pointer">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div>
+            <h2 class="text-2xl font-extrabold text-slate-900 font-heading">Events &amp; Games Registration</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Register with Roll Number &bull; Instant automated digital tickets &amp; athlete passes</p>
+          </div>
+        </div>
+
+        <!-- Tab Toggle: Events vs Sports -->
+        <div class="flex p-1 bg-slate-200/80 rounded-2xl text-xs font-bold gap-1">
+          <button id="tab-btn-events" type="button" onclick="CampusEventsGames.switchTab('events')"
+                  class="px-4 py-2 rounded-xl bg-blue-600 text-white shadow-xs transition cursor-pointer">
+            <i class="fa-solid fa-calendar-days mr-1.5"></i> College Events &amp; Fests
+          </button>
+          <button id="tab-btn-games" type="button" onclick="CampusEventsGames.switchTab('games')"
+                  class="px-4 py-2 rounded-xl text-slate-600 hover:text-slate-900 transition cursor-pointer">
+            <i class="fa-solid fa-trophy mr-1.5"></i> Sports &amp; Games Tournaments
+          </button>
+        </div>
       </div>
 
-      <div class="cards-grid">
-        <div class="event-card">
-          <h4>HackCampus 2026 Hackathon</h4>
-          <p>Date: Next Friday &bull; Venue: Tech Block Auditorium</p>
-          <button class="btn btn-primary mt-3" onclick="openEventRegister('HackCampus 2026 Hackathon', 'College Event')">
-            Register (Get Admission Pass)
-          </button>
+      <!-- Search Input -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs mb-6 flex justify-between items-center">
+        <div class="relative w-full max-w-md">
+          <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+          <input type="text" id="events-games-search" oninput="CampusEventsGames.renderItems()"
+                 placeholder="Search Hackathon, AI workshop, Cricket, Football..."
+                 class="w-full pl-9 pr-3.5 py-2 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-blue-500 focus:bg-white transition" />
         </div>
-        <div class="event-card">
-          <h4>Inter-College Cricket Tournament</h4>
-          <p>Date: Coming Weekend &bull; Venue: Main Sports Ground</p>
-          <button class="btn btn-primary mt-3" onclick="openEventRegister('Inter-College Cricket Tournament', 'Sports Game')">
-            Register (Athlete Pass)
-          </button>
-        </div>
+      </div>
+
+      <!-- Events & Games Grid -->
+      <div id="events-games-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Injected by events-games.js -->
       </div>
     </section>
 
-    <!-- ========================================================== -->
-    <!-- DOMAIN 5: STUDENT COMPLAINTS & ISSUES VIEW                 -->
-    <!-- ========================================================== -->
+    <!-- ========================================================================= -->
+    <!-- DOMAIN 5: STUDENT COMPLAINTS AND CAMPUS ISSUES                            -->
+    <!-- ========================================================================= -->
     <section id="view-complaints-issues" class="app-view hidden">
-      <div class="view-header">
-        <button class="btn btn-secondary" onclick="navigateTo('home')">&larr; Back</button>
-        <h2>Student Complaints & Campus Issues</h2>
-        <button class="btn btn-primary" onclick="openModal('modal-complaint')">+ Post Issue (Photo/Video Proof)</button>
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-200">
+        <div class="flex items-center space-x-3">
+          <button onclick="window.goBack()" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition cursor-pointer">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div>
+            <h2 class="text-2xl font-extrabold text-slate-900 font-heading">Student Complaints &amp; Campus Issues</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Report water, benches, hygiene, or transport with photo/video proof &amp; auto email receipts</p>
+          </div>
+        </div>
+
+        <button type="button" onclick="CampusComplaintsIssues.openPostModal()"
+                class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-sm transition flex items-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-circle-plus"></i>
+          <span>Post Issue / Complaint</span>
+        </button>
       </div>
 
-      <div id="complaints-list" class="cards-grid">
-        <!-- Rendered by JavaScript -->
+      <!-- Filters & Search -->
+      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs mb-6 flex flex-col md:flex-row gap-4 justify-between items-center">
+        <div class="flex flex-wrap gap-1.5 w-full md:w-auto">
+          <button onclick="CampusComplaintsIssues.setFilter('all')" data-filter="all" class="ci-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white transition cursor-pointer">All Reports</button>
+          <button onclick="CampusComplaintsIssues.setFilter('facility')" data-filter="facility" class="ci-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 hover:bg-slate-100 transition cursor-pointer">Facility Issues (Water, Benches)</button>
+          <button onclick="CampusComplaintsIssues.setFilter('complaint')" data-filter="complaint" class="ci-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-slate-700 hover:bg-slate-100 transition cursor-pointer">Student Grievances (Canteen, Mess, Bus)</button>
+        </div>
+
+        <div class="relative w-full md:w-72">
+          <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+          <input type="text" id="issues-search-input" oninput="CampusComplaintsIssues.renderList()" placeholder="Search water, benches, hygiene..."
+                 class="w-full pl-9 pr-3.5 py-2 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-blue-500 focus:bg-white transition" />
+        </div>
+      </div>
+
+      <!-- Issues List -->
+      <div id="complaints-issues-list" class="space-y-4">
+        <!-- Injected by complaints-issues.js -->
       </div>
     </section>
 
-    <!-- ========================================================== -->
-    <!-- VIRTUAL MAILBOX VIEW (AUTOMATED EMAILS)                    -->
-    <!-- ========================================================== -->
-    <section id="view-mailbox" class="app-view hidden">
-      <div class="view-header">
-        <button class="btn btn-secondary" onclick="navigateTo('home')">&larr; Back</button>
-        <h2>Student Virtual Mailbox (Automated Notifications)</h2>
+    <!-- ========================================================================= -->
+    <!-- VIEW: HELP DESK & 24/7 SUPPORT                                            -->
+    <!-- ========================================================================= -->
+    <section id="view-helpdesk" class="app-view hidden">
+      <div class="flex items-center space-x-3 mb-6 pb-4 border-b border-slate-200">
+        <button onclick="window.goBack()" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition cursor-pointer">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div>
+          <h2 class="text-2xl font-extrabold text-slate-900 font-heading">Campus Help Desk &amp; Emergency Support</h2>
+          <p class="text-xs text-slate-500 mt-0.5">24/7 hotlines, emergency dispatch, and AI Campus Assistant</p>
+        </div>
       </div>
-      <div id="mailbox-list" class="mailbox-container">
-        <!-- Injected by JavaScript -->
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="bg-white p-5 rounded-2xl border border-rose-200 shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg mb-3">
+            <i class="fa-solid fa-truck-medical"></i>
+          </div>
+          <h3 class="font-bold text-slate-900 text-sm">Medical Emergency</h3>
+          <p class="text-xs text-slate-500 mt-1">First Aid clinic, doctor &amp; ambulance.</p>
+          <a href="tel:04424567891" class="mt-3 inline-block font-extrabold text-rose-600 text-sm">044-24567891</a>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-blue-200 shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-3">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <h3 class="font-bold text-slate-900 text-sm">Campus Security Gate</h3>
+          <p class="text-xs text-slate-500 mt-1">24/7 Gate 1 control &amp; Lost items desk.</p>
+          <a href="tel:04424567890" class="mt-3 inline-block font-extrabold text-blue-600 text-sm">044-24567890</a>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-amber-200 shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg mb-3">
+            <i class="fa-solid fa-user-shield"></i>
+          </div>
+          <h3 class="font-bold text-slate-900 text-sm">Anti-Ragging Helpline</h3>
+          <p class="text-xs text-slate-500 mt-1">Strict confidentiality guaranteed.</p>
+          <a href="tel:18001805522" class="mt-3 inline-block font-extrabold text-amber-600 text-sm">1800-180-5522</a>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-indigo-200 shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg mb-3">
+            <i class="fa-solid fa-building-user"></i>
+          </div>
+          <h3 class="font-bold text-slate-900 text-sm">Student Affairs Dean</h3>
+          <p class="text-xs text-slate-500 mt-1">Academic disputes &amp; counseling.</p>
+          <a href="mailto:dean.studentaffairs@college.edu" class="mt-3 inline-block font-extrabold text-indigo-600 text-sm truncate max-w-full">dean@college.edu</a>
+        </div>
+      </div>
+
+      <!-- Interactive AI Campus Chatbot -->
+      <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs overflow-hidden max-w-3xl mx-auto">
+        <div class="p-4 bg-gradient-to-r from-blue-700 to-indigo-700 text-white flex items-center justify-between">
+          <div class="flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center text-white text-sm">
+              <i class="fa-solid fa-robot"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-sm">CampusConnect AI Assistant</h4>
+              <p class="text-[10px] text-blue-200">Ask about roll no, canteen tokens, lost & found, voice navigation, or campus venues</p>
+            </div>
+          </div>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-400/20 text-emerald-200 border border-emerald-400/30">Online</span>
+        </div>
+
+        <div id="chatbot-messages" class="p-4 h-72 overflow-y-auto space-y-3 bg-slate-50/50">
+          <div class="flex justify-start">
+            <div class="bg-slate-100 text-slate-800 rounded-2xl rounded-tl-none px-4 py-3 max-w-[85%] text-xs border border-slate-200 shadow-xs leading-relaxed">
+              <div class="flex items-center gap-1.5 font-bold text-xs text-blue-600 mb-1">
+                <i class="fa-solid fa-sparkles"></i> Campus AI Assistant
+              </div>
+              Hello! I am your <strong>CampusConnect AI Assistant</strong>. Ask me how to generate canteen tokens, listen to spoken directions, report lost items, or register for upcoming events and games!
+            </div>
+          </div>
+        </div>
+
+        <form onsubmit="event.preventDefault(); CampusHelpDesk.sendChatMessage();" class="p-3 bg-white border-t border-slate-100 flex items-center space-x-2">
+          <input type="text" id="chatbot-input" placeholder="Type your question (e.g. 'How to generate canteen token?', 'Where is AI lab?')..."
+                 class="flex-1 px-4 py-2.5 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-blue-500 focus:bg-white transition" />
+          <button type="submit" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition shadow-xs flex items-center space-x-1 cursor-pointer">
+            <span>Ask AI</span>
+            <i class="fa-solid fa-paper-plane text-xs"></i>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- VIEW: VIRTUAL MAILBOX (AUTOMATED EMAILS VIEWER)                           -->
+    <!-- ========================================================================= -->
+    <section id="view-mailbox" class="app-view hidden">
+      <div class="flex items-center space-x-3 mb-6 pb-4 border-b border-slate-200">
+        <button onclick="window.goBack()" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition cursor-pointer">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div>
+          <h2 class="text-2xl font-extrabold text-slate-900 font-heading">Virtual Student Mailbox</h2>
+          <p class="text-xs text-slate-500 mt-0.5">Automated match alerts, canteen tokens, event tickets, and complaint receipts</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xs p-5">
+        <div id="mailbox-letters-list" class="space-y-3">
+          <!-- Injected by app.js -->
+        </div>
       </div>
     </section>
 
   </main>
 
-  <!-- ========================================================== -->
-  <!-- MODALS: FORMS & PHOTO/VIDEO UPLOADS                        -->
-  <!-- ========================================================== -->
-
-  <!-- Modal 1: Lost & Found Report (Photo/Video Upload) -->
-  <div id="modal-lost-found" class="modal-overlay hidden">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>Report Lost or Found Item</h3>
-        <button class="close-btn" onclick="closeModal('modal-lost-found')">&times;</button>
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-white border-t border-slate-200 py-6 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div class="flex items-center space-x-2">
+        <span class="font-extrabold text-slate-800">CampusConnect AI</span>
+        <span>&bull; College Student Smart Assistance Portal</span>
       </div>
-      <form onsubmit="handleLostFoundSubmit(event)">
-        <div class="form-group">
-          <label>Type *</label>
-          <select id="lf-type">
-            <option value="lost">Lost Item (I misplaced something)</option>
-            <option value="found">Found Item (I discovered something)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Item Name *</label>
-          <input type="text" id="lf-title" required placeholder="e.g. Casio Calculator or Wallet">
-        </div>
-        <div class="form-group">
-          <label>Location on Campus *</label>
-          <input type="text" id="lf-location" required placeholder="e.g. Science Block Physics Lab">
-        </div>
-        <div class="form-group">
-          <label>Description *</label>
-          <textarea id="lf-desc" required placeholder="Color, brand, distinguishing marks"></textarea>
-        </div>
-        
-        <!-- Photo or Video Upload -->
-        <div class="form-group">
-          <label>Upload Photo or Video Proof</label>
-          <div class="media-upload-area" onclick="document.getElementById('lf-file').click()">
-            <i class="fa-solid fa-cloud-arrow-up text-2xl text-muted"></i>
-            <p>Click to upload Photo or Video Evidence</p>
+      <div class="flex items-center space-x-4">
+        <a href="javascript:void(0)" onclick="CampusFAQ.openFaqModal()" class="hover:text-blue-600">FAQs</a>
+        <a href="javascript:void(0)" onclick="window.navigateTo('helpdesk')" class="hover:text-blue-600">Help Desk</a>
+        <a href="javascript:void(0)" onclick="window.navigateTo('mailbox')" class="hover:text-blue-600">Mailbox</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- MODALS                                                                    -->
+  <!-- ========================================================================= -->
+
+  <!-- 1. Profile Viewer & Editor Modal -->
+  <div id="modal-profile-viewer" class="hidden modal-overlay">
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-md p-6 relative overflow-hidden">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <h3 class="font-heading font-extrabold text-lg text-slate-900">Student Profile</h3>
+        <button type="button" onclick="CampusAuth.closeProfileModal()" class="text-slate-400 hover:text-slate-700 cursor-pointer">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form id="profile-edit-form" class="space-y-4 pt-4">
+        <div class="flex items-center space-x-4">
+          <img id="prof-modal-avatar" src="" class="w-16 h-16 rounded-2xl object-cover ring-2 ring-blue-500 shadow-sm" />
+          <div>
+            <span class="text-xs font-bold text-slate-700 block mb-1">Select Profile Avatar</span>
+            <div class="flex items-center space-x-1.5">
+              <button type="button" onclick="CampusAuth.changeAvatar('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80')" class="w-6 h-6 rounded-full overflow-hidden ring-1 ring-slate-300">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" />
+              </button>
+              <button type="button" onclick="CampusAuth.changeAvatar('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80')" class="w-6 h-6 rounded-full overflow-hidden ring-1 ring-slate-300">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" />
+              </button>
+              <button type="button" onclick="CampusAuth.changeAvatar('https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=200&q=80')" class="w-6 h-6 rounded-full overflow-hidden ring-1 ring-slate-300">
+                <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" />
+              </button>
+              <button type="button" onclick="CampusAuth.changeAvatar('https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80')" class="w-6 h-6 rounded-full overflow-hidden ring-1 ring-slate-300">
+                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover" />
+              </button>
+            </div>
           </div>
-          <input type="file" id="lf-file" accept="image/*,video/*" class="hidden" onchange="previewMedia(this, 'lf-preview')">
-          <div id="lf-preview" class="media-preview-container hidden"></div>
         </div>
 
-        <button type="submit" class="btn btn-primary w-full">Submit Report</button>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Full Name</label>
+          <input type="text" id="prof-modal-name" required class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Roll Number</label>
+          <input type="text" id="prof-modal-roll" required class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200 font-bold uppercase" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Email (Read Only)</label>
+          <input type="text" id="prof-modal-email" readonly class="w-full p-2 text-xs rounded-xl bg-slate-100 border border-slate-200 text-slate-500" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Department</label>
+            <input type="text" id="prof-modal-dept" class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Year</label>
+            <input type="text" id="prof-modal-year" class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200" />
+          </div>
+        </div>
+
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="CampusAuth.closeProfileModal()" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold cursor-pointer">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold cursor-pointer">Save Changes</button>
+        </div>
       </form>
     </div>
   </div>
 
-  <!-- Modal 2: Canteen Token Modal -->
-  <div id="modal-canteen-token" class="modal-overlay hidden">
-    <div class="modal-content text-center">
-      <h3>🎉 Wait-Free Canteen Token Generated!</h3>
-      <div id="token-display-number" class="token-number">#CT-104</div>
-      <p id="token-display-counter" class="badge-orange">Counter 1</p>
-      <div class="receipt-box">
-        <p><strong>Item:</strong> <span id="token-display-item"></span></p>
-        <p><strong>Price:</strong> ₹<span id="token-display-price"></span></p>
-        <p><strong>Student Roll:</strong> <span id="token-display-roll"></span></p>
+  <!-- 2. FAQs Interactive Modal -->
+  <div id="modal-faq-viewer" class="hidden modal-overlay">
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-2xl p-6 relative max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm font-bold">
+            <i class="fa-solid fa-circle-question"></i>
+          </div>
+          <h3 class="font-heading font-extrabold text-lg text-slate-900">CampusConnect AI FAQs</h3>
+        </div>
+        <button type="button" onclick="CampusFAQ.closeFaqModal()" class="text-slate-400 hover:text-slate-700 cursor-pointer">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
       </div>
-      <button class="btn btn-warning w-full" onclick="closeModal('modal-canteen-token')">Got It!</button>
+
+      <!-- FAQ Search -->
+      <div class="pt-4 pb-2">
+        <div class="relative">
+          <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+          <input type="text" id="faq-search-input" oninput="CampusFAQ.renderFAQs()" placeholder="Search questions on roll no, canteen token, voice navigation..."
+                 class="w-full pl-9 pr-3.5 py-2 text-xs rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-blue-500" />
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="flex flex-wrap gap-1.5 py-2">
+        <button onclick="CampusFAQ.setCategory('all')" data-cat="all" class="faq-cat-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-600 text-white transition cursor-pointer">All</button>
+        <button onclick="CampusFAQ.setCategory('Authentication')" data-cat="Authentication" class="faq-cat-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 transition cursor-pointer">Login / Roll No</button>
+        <button onclick="CampusFAQ.setCategory('Lost & Found')" data-cat="Lost & Found" class="faq-cat-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 transition cursor-pointer">Lost &amp; Found</button>
+        <button onclick="CampusFAQ.setCategory('Canteen Queue')" data-cat="Canteen Queue" class="faq-cat-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 transition cursor-pointer">Canteen Tokens</button>
+        <button onclick="CampusFAQ.setCategory('Navigation')" data-cat="Navigation" class="faq-cat-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 transition cursor-pointer">Voice Navigation</button>
+        <button onclick="CampusFAQ.setCategory('Events & Games')" data-cat="Events & Games" class="faq-cat-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-white text-slate-600 hover:bg-slate-100 transition cursor-pointer">Events &amp; Games</button>
+      </div>
+
+      <!-- FAQ Accordion List -->
+      <div id="faq-accordion-container" class="space-y-2.5 pt-2">
+        <!-- Injected by faq.js -->
+      </div>
     </div>
   </div>
 
-  <!-- Modal 3: Complaint Report (Photo/Video Proof) -->
-  <div id="modal-complaint" class="modal-overlay hidden">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>Post Issue / Grievance (Photo & Video Proof)</h3>
-        <button class="close-btn" onclick="closeModal('modal-complaint')">&times;</button>
+  <!-- 3. Canteen Token Generated Modal -->
+  <div id="modal-canteen-token" class="hidden modal-overlay">
+    <div class="bg-white rounded-3xl shadow-2xl border border-orange-200 w-full max-w-sm p-6 text-center">
+      <div class="w-16 h-16 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-3xl mx-auto mb-3 shadow-inner">
+        <i class="fa-solid fa-utensils"></i>
       </div>
-      <form onsubmit="handleComplaintSubmit(event)">
-        <div class="form-group">
-          <label>Issue Title *</label>
-          <input type="text" id="cmp-title" required placeholder="e.g. Water cooler leaking in TB-205">
+      <span class="text-xs font-bold uppercase tracking-wider text-orange-600">Your Wait-Free Token</span>
+      <div id="modal-tkn-number" class="text-4xl font-black text-slate-900 my-2 tracking-wide">#CT-104</div>
+      <div id="modal-tkn-counter" class="text-xs font-extrabold text-orange-800 bg-orange-50 border border-orange-200 py-1 px-3 rounded-full inline-block">Counter 1</div>
+
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 my-4 text-left text-xs space-y-1.5">
+        <div class="flex justify-between"><span class="text-slate-400">Student Roll:</span><span id="modal-tkn-roll" class="font-bold"></span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Order:</span><span id="modal-tkn-items" class="font-bold text-slate-800"></span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Total Paid:</span><span id="modal-tkn-price" class="font-extrabold text-orange-600"></span></div>
+        <div class="flex justify-between"><span class="text-slate-400">Status:</span><span id="modal-tkn-status" class="font-bold text-amber-600"></span></div>
+      </div>
+
+      <p class="text-[11px] text-slate-500 mb-4">
+        📧 Token confirmation has been automatically sent to your Virtual Mailbox. A reminder chime will play when your order is ready!
+      </p>
+
+      <button type="button" onclick="CampusCanteen.closeTokenModal()"
+              class="w-full py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold transition shadow cursor-pointer">
+        Awesome, Got My Token!
+      </button>
+    </div>
+  </div>
+
+  <!-- 4. Lost & Found Report Modal (Photo/Video Upload) -->
+  <div id="lost-found-report-modal" class="hidden modal-overlay">
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 id="report-modal-heading" class="font-heading font-extrabold text-base text-slate-900">Report an Item</h3>
+        <button type="button" onclick="CampusLostFound.closeReportModal()" class="text-slate-400 hover:text-slate-700 cursor-pointer">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form id="lost-found-form" class="space-y-3.5 pt-4">
+        <input type="hidden" id="report-type-input" value="lost" />
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Item Title *</label>
+          <input type="text" id="report-item-title" required placeholder="e.g. Casio fx-991EX Calculator or Black Leather Wallet"
+                 class="w-full p-2.5 text-xs rounded-xl bg-slate-50 border border-slate-200" />
         </div>
-        <div class="form-group">
-          <label>Category *</label>
-          <select id="cmp-category">
-            <option value="Drinking Water">Drinking Water & Sanitation</option>
-            <option value="Broken Benches">Broken Benches & Furniture</option>
-            <option value="Electrical">Electrical / Fans / Lights</option>
-            <option value="Canteen Hygiene">Canteen Hygiene</option>
-          </select>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Category *</label>
+            <select id="report-category" class="w-full p-2.5 text-xs rounded-xl bg-slate-50 border border-slate-200">
+              <option value="Electronics">Electronics &amp; Gadgets</option>
+              <option value="Personal Belongings / Money">Wallet / Cash / Bags</option>
+              <option value="Identification / Cards">College ID / ATM Card</option>
+              <option value="Keys">Keys</option>
+              <option value="Books & Stationery">Books &amp; Calculator</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Date *</label>
+            <input type="date" id="report-date" required class="w-full p-2.5 text-xs rounded-xl bg-slate-50 border border-slate-200" />
+          </div>
         </div>
-        <div class="form-group">
-          <label>Description *</label>
-          <textarea id="cmp-desc" required placeholder="Describe defect clearly"></textarea>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Location on Campus *</label>
+          <input type="text" id="report-location" required placeholder="e.g. Science Block Physics Lab SB-102 or Canteen Lawn"
+                 class="w-full p-2.5 text-xs rounded-xl bg-slate-50 border border-slate-200" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Detailed Description &amp; Distinguishing Marks *</label>
+          <textarea id="report-description" required rows="2" placeholder="Color, brand, unique scratches, tape, initials..."
+                    class="w-full p-2.5 text-xs rounded-xl bg-slate-50 border border-slate-200"></textarea>
         </div>
 
         <!-- Photo or Video Upload -->
-        <div class="form-group">
-          <label>Attach Photo or Video Proof</label>
-          <div class="media-upload-area" onclick="document.getElementById('cmp-file').click()">
-            <i class="fa-solid fa-camera text-2xl text-muted"></i>
-            <p>Click to attach photo or video proof</p>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Attach Photo or Video Proof</label>
+          <input type="file" id="lf-file-input" accept="image/*,video/*" onchange="handleMediaUpload(this, 'lf-media-preview-box')" class="hidden" />
+          <div id="lf-media-preview-box" onclick="document.getElementById('lf-file-input').click()" class="media-preview-box p-4 text-center cursor-pointer">
+            <i class="fa-solid fa-cloud-arrow-up text-2xl text-slate-400 mb-1"></i>
+            <p class="text-xs font-semibold text-slate-600">Click to upload Photo or Video</p>
+            <p class="text-[10px] text-slate-400">Upload clear photo or short video of the object</p>
           </div>
-          <input type="file" id="cmp-file" accept="image/*,video/*" class="hidden" onchange="previewMedia(this, 'cmp-preview')">
-          <div id="cmp-preview" class="media-preview-container hidden"></div>
         </div>
 
-        <button type="submit" class="btn btn-primary w-full">Submit & Lodge Ticket</button>
+        <div id="finder-name-container" class="hidden">
+          <label class="block text-xs font-bold text-slate-700 mb-1">Finder Name / Station</label>
+          <input type="text" id="report-finder-name" placeholder="Your name or Security Desk" class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Contact Email *</label>
+            <input type="email" id="report-contact-email" required class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Phone Number</label>
+            <input type="text" id="report-contact-phone" class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200" />
+          </div>
+        </div>
+
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="CampusLostFound.closeReportModal()" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold cursor-pointer">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold cursor-pointer">Submit Report</button>
+        </div>
       </form>
     </div>
   </div>
 
-  <!-- Modal 4: Event & Games Registration Modal -->
-  <div id="modal-event-reg" class="modal-overlay hidden">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="event-reg-modal-title">Register for Event</h3>
-        <button class="close-btn" onclick="closeModal('modal-event-reg')">&times;</button>
+  <!-- 5. AI Match Celebration Modal -->
+  <div id="ai-match-modal" class="hidden modal-overlay">
+    <div class="bg-white rounded-3xl shadow-2xl border border-blue-200 w-full max-w-md p-6 text-center">
+      <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-3xl mx-auto mb-3 shadow-inner">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
       </div>
-      <form onsubmit="handleEventRegSubmit(event)">
-        <input type="hidden" id="event-reg-target-title">
-        <div class="form-group">
-          <label>Student Name *</label>
-          <input type="text" id="ev-reg-name" required>
+      <div id="match-score-badge" class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-blue-100 text-blue-800 inline-block">92% AI Match Detected!</div>
+      <h3 class="text-xl font-black text-slate-900 mt-2">Potential Item Match Found</h3>
+      <p class="text-xs text-slate-500 mt-1">An automated alert email has been dispatched to your mailbox.</p>
+
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 my-4 text-left text-xs space-y-2">
+        <div><span class="text-slate-400">Your Lost Item:</span> <strong id="match-lost-title" class="text-slate-800"></strong></div>
+        <div><span class="text-slate-400">Found Match:</span> <strong id="match-found-title" class="text-blue-700"></strong></div>
+        <div><span class="text-slate-400">Found At:</span> <span id="match-found-location"></span></div>
+        <div><span class="text-slate-400">Description:</span> <span id="match-found-desc"></span></div>
+        <div class="pt-2 border-t border-slate-200 text-[11px] text-slate-500 flex items-center gap-1.5">
+          <i class="fa-solid fa-envelope text-blue-600"></i>
+          <span>Automated Alert Sent To: <strong id="match-user-email-target" class="text-slate-800"></strong></span>
         </div>
-        <div class="form-group">
-          <label>Student Roll Number *</label>
-          <input type="text" id="ev-reg-roll" required style="text-transform: uppercase;">
+      </div>
+
+      <button type="button" onclick="CampusLostFound.closeMatchModal(); window.navigateTo('mailbox');"
+              class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition shadow cursor-pointer">
+        Open Virtual Mailbox to Claim
+      </button>
+    </div>
+  </div>
+
+  <!-- 6. Lost & Found Detail Modal -->
+  <div id="lost-found-detail-modal" class="hidden modal-overlay">
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-md p-6 max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div>
+          <span id="lf-detail-type" class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700"></span>
+          <h3 id="lf-detail-title" class="font-heading font-extrabold text-base text-slate-900 mt-1"></h3>
         </div>
-        <div class="form-group">
-          <label>Email Address *</label>
-          <input type="email" id="ev-reg-email" required>
+        <button type="button" onclick="CampusLostFound.closeDetailModal()" class="text-slate-400 hover:text-slate-700 cursor-pointer">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div id="lf-detail-media" class="my-4 rounded-xl overflow-hidden bg-slate-950 flex items-center justify-center"></div>
+
+      <div class="space-y-2 text-xs text-slate-600">
+        <div><strong class="text-slate-800">Category:</strong> <span id="lf-detail-category"></span></div>
+        <div><strong class="text-slate-800">Location:</strong> <span id="lf-detail-location"></span></div>
+        <div><strong class="text-slate-800">Date:</strong> <span id="lf-detail-date"></span></div>
+        <div><strong class="text-slate-800">Description:</strong> <span id="lf-detail-desc"></span></div>
+        <div><strong class="text-slate-800">Contact / Handover:</strong> <span id="lf-detail-contact"></span></div>
+      </div>
+
+      <div class="pt-4 mt-4 border-t border-slate-100 flex justify-end">
+        <button type="button" onclick="CampusLostFound.closeDetailModal()" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold cursor-pointer">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Events & Games Registration Modal -->
+  <div id="modal-event-game-reg" class="hidden modal-overlay">
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-md p-6">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div>
+          <span id="eg-modal-type-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800">REGISTRATION</span>
+          <h3 id="eg-modal-title" class="font-heading font-extrabold text-base text-slate-900 mt-1"></h3>
         </div>
-        <button type="submit" class="btn btn-primary w-full">Confirm & Issue Pass</button>
+        <button type="button" onclick="CampusEventsGames.closeRegisterModal()" class="text-slate-400 hover:text-slate-700 cursor-pointer">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form id="eg-register-form" class="space-y-3 pt-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Student Full Name *</label>
+          <input type="text" id="eg-reg-name" required class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Roll Number *</label>
+          <input type="text" id="eg-reg-roll" required class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200 font-bold uppercase" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Email *</label>
+          <input type="email" id="eg-reg-email" required class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Department</label>
+            <input type="text" id="eg-reg-dept" class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Year</label>
+            <input type="text" id="eg-reg-year" class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200" />
+          </div>
+        </div>
+
+        <div id="eg-reg-team-group" class="hidden">
+          <label class="block text-xs font-bold text-slate-700 mb-1">Team Name (or Solo)</label>
+          <input type="text" id="eg-reg-team" placeholder="e.g. CSE Strikers or Solo" class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200" />
+        </div>
+
+        <p class="text-[11px] text-slate-400">
+          🎟️ An automated admission ticket with your Roll Number &amp; Pass ID will be dispatched to your email!
+        </p>
+
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="CampusEventsGames.closeRegisterModal()" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold cursor-pointer">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold cursor-pointer">Confirm &amp; Get Pass</button>
+        </div>
       </form>
     </div>
   </div>
 
-  <!-- Modal 5: FAQs Modal -->
-  <div id="modal-faq" class="modal-overlay hidden">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>Frequently Asked Questions</h3>
-        <button class="close-btn" onclick="closeModal('modal-faq')">&times;</button>
+  <!-- 8. Post Complaint / Issue Modal (Photo & Video proof) -->
+  <div id="modal-post-complaint-issue" class="hidden modal-overlay">
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="font-heading font-extrabold text-base text-slate-900">Post Complaint / Campus Issue</h3>
+        <button type="button" onclick="CampusComplaintsIssues.closePostModal()" class="text-slate-400 hover:text-slate-700 cursor-pointer">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
       </div>
-      <div class="faq-accordion">
-        <div class="faq-item">
-          <h4>Q: How does Roll Number login work?</h4>
-          <p>You can sign in directly using your college Roll Number (e.g. 22CS108). All tokens, passes, and complaint receipts will be mapped to your Roll Number.</p>
+
+      <form id="ci-form" class="space-y-3 pt-4">
+        <input type="hidden" id="ci-reporter-name" />
+        <input type="hidden" id="ci-reporter-roll" />
+        <input type="hidden" id="ci-reporter-email" />
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Report Domain *</label>
+            <select id="ci-domain-type" class="w-full p-2.5 text-xs rounded-xl bg-slate-50 border border-slate-200">
+              <option value="facility">Campus Facility Issue (Water, Benches, Lights)</option>
+              <option value="complaint">Student Grievance (Canteen, Mess, Transport, Ragging)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Category *</label>
+            <select id="ci-category" class="w-full p-2.5 text-xs rounded-xl bg-slate-50 border border-slate-200">
+              <option value="Drinking Water & Sanitation">Drinking Water &amp; Sanitation</option>
+              <option value="Broken Benches & Furniture">Broken Benches &amp; Furniture</option>
+              <option value="Electrical / Fans / AC">Electrical / Fans / Lights</option>
+              <option value="Canteen Hygiene & Mess">Canteen Hygiene &amp; Mess Quality</option>
+              <option value="Bus Transport">Bus Transport &amp; Delays</option>
+              <option value="Hostel Facilities">Hostel Maintenance</option>
+              <option value="Anti-Ragging / Security">Anti-Ragging / Security</option>
+            </select>
+          </div>
         </div>
-        <div class="faq-item">
-          <h4>Q: How does Lost & Found match notification work?</h4>
-          <p>When you post an item, our algorithm compares title, category, and location. If a match is found, an automated email is sent to your mailbox!</p>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Issue Title *</label>
+          <input type="text" id="ci-title" required placeholder="e.g. Water cooler in TB-205 leaking and not dispensing cold water"
+                 class="w-full p-2.5 text-xs rounded-xl bg-slate-50 border border-slate-200" />
         </div>
-        <div class="faq-item">
-          <h4>Q: How do Canteen Queue tokens work?</h4>
-          <p>You generate a digital token without waiting in line. When your food is ready, you will hear an audio chime and get an order-ready reminder!</p>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Campus Block *</label>
+            <select id="ci-block" class="w-full p-2.5 text-xs rounded-xl bg-slate-50 border border-slate-200">
+              <option value="Main Academic Block">Main Academic Block</option>
+              <option value="Tech Block A">Tech Block A</option>
+              <option value="Tech Block B">Tech Block B</option>
+              <option value="Science Block">Science Block</option>
+              <option value="Student Amenities Block">Student Amenities Block</option>
+              <option value="Library Block">Library Block</option>
+              <option value="Hostel Block">Hostel Blocks</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Floor / Room</label>
+            <input type="text" id="ci-floor" placeholder="e.g. 2nd Floor, Room 204" class="w-full p-2.5 text-xs rounded-xl bg-slate-50 border border-slate-200" />
+          </div>
         </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Description &amp; Exact Location *</label>
+          <textarea id="ci-description" required rows="2" placeholder="Describe the defect, hazards, or grievance clearly..."
+                    class="w-full p-2.5 text-xs rounded-xl bg-slate-50 border border-slate-200"></textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Priority Urgency</label>
+            <select id="ci-priority" class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200">
+              <option value="High">High Priority</option>
+              <option value="Critical">Critical (Immediate danger/health)</option>
+              <option value="Medium">Medium Priority</option>
+              <option value="Low">Low Priority</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Landmark Details</label>
+            <input type="text" id="ci-location-details" placeholder="Near water station / window" class="w-full p-2 text-xs rounded-xl bg-slate-50 border border-slate-200" />
+          </div>
+        </div>
+
+        <!-- Photo or Video Proof Upload with Live Preview -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Attach Photo or Video Proof</label>
+          <input type="file" id="ci-media-input" accept="image/*,video/*" onchange="CampusComplaintsIssues.handleMediaFileChange(event)" class="hidden" />
+          <div onclick="document.getElementById('ci-media-input').click()" class="media-preview-box p-4 text-center cursor-pointer">
+            <i class="fa-solid fa-camera text-2xl text-slate-400 mb-1"></i>
+            <p class="text-xs font-semibold text-slate-600">Click to upload Photo or Video Evidence</p>
+            <p class="text-[10px] text-slate-400">Supports images &amp; MP4 video clips</p>
+          </div>
+          <!-- Live Preview Box -->
+          <div id="ci-media-preview-box" class="hidden mt-2 p-2 rounded-xl bg-slate-900 flex items-center justify-center max-h-48 overflow-hidden">
+            <img id="ci-preview-img" src="" class="hidden max-h-48 object-cover rounded-lg" />
+            <video id="ci-preview-video" src="" controls class="hidden max-h-48 rounded-lg"></video>
+          </div>
+        </div>
+
+        <p class="text-[11px] text-slate-400">
+          📋 An automated acknowledgment email with Complaint Tracking Reference ID will be dispatched to you immediately.
+        </p>
+
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="CampusComplaintsIssues.closePostModal()" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold cursor-pointer">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold cursor-pointer">Submit Report</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 9. Mail Reader Modal (Simulated Email Reader) -->
+  <div id="mail-reader-modal" class="hidden modal-overlay">
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-2xl p-6 max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">Official Automated Mail</span>
+          <h3 id="mail-reader-subject" class="font-heading font-extrabold text-base text-slate-900 mt-1"></h3>
+        </div>
+        <button type="button" onclick="closeMailReader()" class="text-slate-400 hover:text-slate-700 cursor-pointer">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs text-slate-500 mb-4 space-y-1">
+        <div><strong>From:</strong> <span id="mail-reader-sender" class="text-slate-700"></span></div>
+        <div><strong>To:</strong> <span id="mail-reader-recipient" class="text-slate-700"></span></div>
+        <div><strong>Date:</strong> <span id="mail-reader-date"></span></div>
+      </div>
+
+      <div id="mail-reader-content" class="py-2"></div>
+
+      <div class="pt-4 border-t border-slate-100 flex justify-end">
+        <button type="button" onclick="closeMailReader()" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold cursor-pointer">Close Email</button>
       </div>
     </div>
   </div>
 
-  <!-- JavaScript File -->
-  <script src="js/script.js"></script>
+  <!-- ================= SCRIPTS ================= -->
+  <script src="js/store.js"></script>
+  <script src="js/mailer.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/canteen.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/lost-found.js"></script>
+  <script src="js/events-games.js"></script>
+  <script src="js/complaints-issues.js"></script>
+  <script src="js/faq.js"></script>
+  <script src="js/helpdesk.js"></script>
+  <script src="js/app.js"></script>
+
 </body>
 </html>
