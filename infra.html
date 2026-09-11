@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusConnect AI - Smart College Student Portal</title>
+
+  <!-- Font Awesome Icons & Custom CSS Stylesheet -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ================= TOP HEADER BAR ================= -->
+  <header class="navbar">
+    <div class="brand-logo" onclick="navigateTo('home')">
+      <i class="fa-solid fa-graduation-cap"></i>
+      <span>CampusConnect <span class="brand-ai-badge">AI</span></span>
+    </div>
+
+    <!-- Right Header Controls -->
+    <div class="menu-buttons-group">
+      <button class="btn btn-secondary" onclick="navigateTo('helpdesk')">
+        <i class="fa-solid fa-headset"></i> Help Desk
+      </button>
+      <button class="btn btn-secondary" onclick="openModal('modal-faq')">
+        <i class="fa-solid fa-circle-question"></i> FAQs
+      </button>
+      <button class="btn btn-secondary" onclick="navigateTo('mailbox')">
+        <i class="fa-regular fa-envelope"></i> Mailbox (<span id="mail-count">0</span>)
+      </button>
+      <div id="auth-nav-btn">
+        <button class="btn btn-primary" onclick="navigateTo('auth')">Sign In</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= TOAST NOTIFICATION CONTAINER ================= -->
+  <div id="toast-container" class="toast-box"></div>
+
+  <!-- ================= MAIN CONTAINER ================= -->
+  <main class="main-container">
+
+    <!-- ========================================================== -->
+    <!-- VIEW 0: LOGIN & REGISTRATION (ROLL NUMBER AUTHENTICATION) -->
+    <!-- ========================================================== -->
+    <section id="view-auth" class="app-view">
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button id="tab-login-btn" class="auth-tab-btn active" onclick="switchAuthTab('login')">Sign In</button>
+          <button id="tab-register-btn" class="auth-tab-btn" onclick="switchAuthTab('register')">Register / Sign Up</button>
+        </div>
+
+        <!-- 1. SIGN IN FORM (Roll Number + Password) -->
+        <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label>Student Roll Number or Email *</label>
+            <input type="text" id="login-roll" required placeholder="e.g. 22CS108 or student@college.edu">
+          </div>
+          <div class="form-group">
+            <label>Password *</label>
+            <input type="password" id="login-password" required placeholder="Enter password">
+          </div>
+          <button type="submit" class="btn btn-primary w-full">Sign In to CampusConnect</button>
+          <button type="button" class="btn btn-secondary w-full" onclick="demoLogin()">
+            ⚡ One-Click Demo Login (Roll: 22CS108)
+          </button>
+        </form>
+
+        <!-- 2. REGISTRATION FORM (Enter Roll Number) -->
+        <form id="register-form" class="auth-form hidden" onsubmit="handleRegister(event)">
+          <div class="form-group">
+            <label>Student Full Name *</label>
+            <input type="text" id="reg-name" required placeholder="e.g. Sneha Roy">
+          </div>
+          <div class="form-group">
+            <label>Student Roll Number *</label>
+            <input type="text" id="reg-roll" required placeholder="e.g. 24CS105" style="text-transform: uppercase;">
+          </div>
+          <div class="form-group">
+            <label>College Email or Phone *</label>
+            <input type="text" id="reg-email" required placeholder="sneha@college.edu">
+          </div>
+          <div class="form-group">
+            <label>Department</label>
+            <select id="reg-dept">
+              <option value="Computer Science & Engineering">Computer Science (CSE)</option>
+              <option value="Information Technology">Information Tech (IT)</option>
+              <option value="Artificial Intelligence">AI & Data Science</option>
+              <option value="Mechanical Engineering">Mechanical</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Create Password *</label>
+            <input type="password" id="reg-password" required placeholder="Minimum 4 characters">
+          </div>
+          <button type="submit" class="btn btn-primary w-full">Create Account & Enter Campus</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- VIEW 1: HOME PAGE (MENU BAR + 5 DOMAINS)                   -->
+    <!-- ========================================================== -->
+    <section id="view-home" class="app-view hidden">
+      
+      <!-- Home Page Menu Bar (Profile Picture, Help Desk, FAQs, Log Out) -->
+      <div class="home-menu-bar">
+        <!-- Profile Picture & Details -->
+        <div class="user-profile-badge" onclick="openProfileModal()">
+          <img id="home-user-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80" alt="Avatar">
+          <div>
+            <h3 id="home-user-name">Student Name</h3>
+            <p>Roll No: <strong id="home-user-roll" class="text-blue">22CS108</strong> &bull; <span id="home-user-dept">CSE</span></p>
+          </div>
+        </div>
+
+        <!-- Menu Bar Action Buttons -->
+        <div class="menu-buttons-group">
+          <button class="btn btn-secondary" onclick="navigateTo('helpdesk')">
+            <i class="fa-solid fa-headset text-blue"></i> Help Desk
+          </button>
+          <button class="btn btn-secondary" onclick="openModal('modal-faq')">
+            <i class="fa-solid fa-circle-question text-purple"></i> FAQs
+          </button>
+          <button class="btn btn-secondary" onclick="navigateTo('mailbox')">
+            <i class="fa-regular fa-envelope text-blue"></i> Mailbox
+          </button>
+          <button class="btn btn-danger" onclick="logout()">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+          </button>
+        </div>
+      </div>
+
+      <!-- Five Specialized Campus Domains Grid -->
+      <h2 class="section-title">Five Specialized Campus Domains</h2>
+      <div class="cards-grid">
+
+        <!-- Domain 1: Lost and Found -->
+        <div class="domain-card" onclick="navigateTo('lost-found')">
+          <div>
+            <div class="card-icon icon-lostfound"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <h3>1. Lost and Found System</h3>
+            <p>Upload photo or video of lost or found objects. When an item matches specifications, an automatic notification email is immediately dispatched!</p>
+          </div>
+          <button class="btn btn-primary mt-4">Open Lost & Found &rarr;</button>
+        </div>
+
+        <!-- Domain 2: Canteen Queue System -->
+        <div class="domain-card" onclick="navigateTo('canteen')">
+          <div>
+            <div class="card-icon icon-canteen"><i class="fa-solid fa-utensils"></i></div>
+            <h3>2. Canteen Queue System</h3>
+            <p>Generate wait-free digital tokens without standing in physical queues. Includes automated email receipts and audio reminder chimes!</p>
+          </div>
+          <button class="btn btn-warning mt-4">Open Canteen Tokens &rarr;</button>
+        </div>
+
+        <!-- Domain 3: Campus Navigation -->
+        <div class="domain-card" onclick="navigateTo('navigation')">
+          <div>
+            <div class="card-icon icon-nav"><i class="fa-solid fa-compass"></i></div>
+            <h3>3. Navigation System (Voice Assistance)</h3>
+            <p>Know all routes of university classrooms and labs with spoken Voice Assistance step-by-step guidance.</p>
+          </div>
+          <button class="btn btn-secondary mt-4">Open Voice Navigation &rarr;</button>
+        </div>
+
+        <!-- Domain 4: Events and Games -->
+        <div class="domain-card" onclick="navigateTo('events-games')">
+          <div>
+            <div class="card-icon icon-events"><i class="fa-solid fa-ticket"></i></div>
+            <h3>4. Events & Games Registration</h3>
+            <p>Register for hackathons, college fests, cricket, and sports tournaments with automated admission ticket passes.</p>
+          </div>
+          <button class="btn btn-primary mt-4">Register for Events &rarr;</button>
+        </div>
+
+        <!-- Domain 5: Student Complaints & Issues -->
+        <div class="domain-card" onclick="navigateTo('complaints-issues')">
+          <div>
+            <div class="card-icon icon-complaint"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+            <h3>5. Complaints & Campus Issues</h3>
+            <p>Post photo or video proof of broken benches, water cooler faults, or mess issues with automated ticket tracking receipts.</p>
+          </div>
+          <button class="btn btn-secondary mt-4">Report Campus Issue &rarr;</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- DOMAIN 1: LOST & FOUND VIEW                                -->
+    <!-- ========================================================== -->
+    <section id="view-lost-found" class="app-view hidden">
+      <div class="view-header">
+        <button class="btn btn-secondary" onclick="navigateTo('home')">&larr; Back</button>
+        <h2>Lost and Found System</h2>
+        <button class="btn btn-primary" onclick="openModal('modal-lost-found')">+ Report Lost / Found Item</button>
+      </div>
+
+      <div class="search-bar">
+        <input type="text" id="lf-search" placeholder="Search calculator, wallet, lab..." oninput="renderLostFound()">
+      </div>
+
+      <div id="lost-found-list" class="cards-grid">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- DOMAIN 2: CANTEEN QUEUE SYSTEM VIEW                        -->
+    <!-- ========================================================== -->
+    <section id="view-canteen" class="app-view hidden">
+      <div class="view-header">
+        <button class="btn btn-secondary" onclick="navigateTo('home')">&larr; Back</button>
+        <h2>Canteen Queue System (Wait-Free)</h2>
+      </div>
+
+      <!-- Canteen Menu -->
+      <h3>Food Menu</h3>
+      <div class="cards-grid">
+        <div class="canteen-item-card">
+          <h4>Masala Dosa & Chutney</h4>
+          <p>₹60 &bull; Prep Time: 5 mins</p>
+          <button class="btn btn-warning" onclick="generateCanteenToken('Masala Dosa', 60, 'Counter 1 (Meals)')">
+            Generate Wait-Free Token
+          </button>
+        </div>
+        <div class="canteen-item-card">
+          <h4>Veg Fried Rice & Manchurian</h4>
+          <p>₹90 &bull; Prep Time: 7 mins</p>
+          <button class="btn btn-warning" onclick="generateCanteenToken('Veg Fried Rice', 90, 'Counter 2 (Chinese)')">
+            Generate Wait-Free Token
+          </button>
+        </div>
+        <div class="canteen-item-card">
+          <h4>Filter Coffee / Tea</h4>
+          <p>₹20 &bull; Prep Time: 2 mins</p>
+          <button class="btn btn-warning" onclick="generateCanteenToken('Filter Coffee', 20, 'Counter 3 (Beverages)')">
+            Generate Wait-Free Token
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Queue & Reminder System -->
+      <h3 class="mt-6">Live Queue Display & Reminder System</h3>
+      <div id="canteen-queue-container" class="queue-list">
+        <!-- Dynamic tokens injected here -->
+      </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- DOMAIN 3: CAMPUS NAVIGATION SYSTEM VIEW                    -->
+    <!-- ========================================================== -->
+    <section id="view-navigation" class="app-view hidden">
+      <div class="view-header">
+        <button class="btn btn-secondary" onclick="navigateTo('home')">&larr; Back</button>
+        <h2>Campus Navigation System (Voice Assistance)</h2>
+        <button class="btn btn-primary" onclick="startMicSearch()">🎙️ Speak Destination</button>
+      </div>
+
+      <!-- Voice Control Bar -->
+      <div id="voice-wave-box" class="voice-wave-box hidden">
+        <div class="voice-bars">
+          <span class="voice-bar"></span>
+          <span class="voice-bar"></span>
+          <span class="voice-bar"></span>
+          <span class="voice-bar"></span>
+        </div>
+        <span id="voice-status-text">🔊 Voice Assistance Speaking...</span>
+        <div>
+          <button class="btn btn-secondary" onclick="pauseVoice()">Pause</button>
+          <button class="btn btn-secondary" onclick="resumeVoice()">Resume</button>
+          <button class="btn btn-danger" onclick="stopVoice()">Stop</button>
+        </div>
+      </div>
+
+      <!-- Navigation Places List -->
+      <div class="cards-grid">
+        <div class="nav-card" onclick="selectRoute('AI & Machine Learning Lab', 'Tech Block A', '2nd Floor, Room TB-205', 'Take elevator in Tech Block A to Floor 2, turn left past the server room, room TB-205 is on your right.')">
+          <h4>AI & Machine Learning Lab (TB-205)</h4>
+          <p>Tech Block A &bull; Floor 2</p>
+          <button class="btn btn-primary mt-2">🔊 Listen Route (Voice Assistance)</button>
+        </div>
+        <div class="nav-card" onclick="selectRoute('Physics Science Lab', 'Science Block', 'Ground Floor, Room SB-004', 'Enter Science Block main arch, walk 20 meters straight down the hallway, the physics laboratory is opposite the chemistry lab.')">
+          <h4>Physics Science Lab (SB-004)</h4>
+          <p>Science Block &bull; Ground Floor</p>
+          <button class="btn btn-primary mt-2">🔊 Listen Route (Voice Assistance)</button>
+        </div>
+        <div class="nav-card" onclick="selectRoute('Central Campus Library', 'Library Block', '1st Floor', 'Walk through the Central Quadrangle toward the clock tower, enter the glass double doors, digital circulation desk is on the 1st floor.')">
+          <h4>Central Campus Library</h4>
+          <p>Library Block &bull; 1st Floor</p>
+          <button class="btn btn-primary mt-2">🔊 Listen Route (Voice Assistance)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- DOMAIN 4: EVENTS AND GAMES REGISTRATION VIEW               -->
+    <!-- ========================================================== -->
+    <section id="view-events-games" class="app-view hidden">
+      <div class="view-header">
+        <button class="btn btn-secondary" onclick="navigateTo('home')">&larr; Back</button>
+        <h2>Events & Games Registration</h2>
+      </div>
+
+      <div class="cards-grid">
+        <div class="event-card">
+          <h4>HackCampus 2026 Hackathon</h4>
+          <p>Date: Next Friday &bull; Venue: Tech Block Auditorium</p>
+          <button class="btn btn-primary mt-3" onclick="openEventRegister('HackCampus 2026 Hackathon', 'College Event')">
+            Register (Get Admission Pass)
+          </button>
+        </div>
+        <div class="event-card">
+          <h4>Inter-College Cricket Tournament</h4>
+          <p>Date: Coming Weekend &bull; Venue: Main Sports Ground</p>
+          <button class="btn btn-primary mt-3" onclick="openEventRegister('Inter-College Cricket Tournament', 'Sports Game')">
+            Register (Athlete Pass)
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- DOMAIN 5: STUDENT COMPLAINTS & ISSUES VIEW                 -->
+    <!-- ========================================================== -->
+    <section id="view-complaints-issues" class="app-view hidden">
+      <div class="view-header">
+        <button class="btn btn-secondary" onclick="navigateTo('home')">&larr; Back</button>
+        <h2>Student Complaints & Campus Issues</h2>
+        <button class="btn btn-primary" onclick="openModal('modal-complaint')">+ Post Issue (Photo/Video Proof)</button>
+      </div>
+
+      <div id="complaints-list" class="cards-grid">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </section>
+
+    <!-- ========================================================== -->
+    <!-- VIRTUAL MAILBOX VIEW (AUTOMATED EMAILS)                    -->
+    <!-- ========================================================== -->
+    <section id="view-mailbox" class="app-view hidden">
+      <div class="view-header">
+        <button class="btn btn-secondary" onclick="navigateTo('home')">&larr; Back</button>
+        <h2>Student Virtual Mailbox (Automated Notifications)</h2>
+      </div>
+      <div id="mailbox-list" class="mailbox-container">
+        <!-- Injected by JavaScript -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================== -->
+  <!-- MODALS: FORMS & PHOTO/VIDEO UPLOADS                        -->
+  <!-- ========================================================== -->
+
+  <!-- Modal 1: Lost & Found Report (Photo/Video Upload) -->
+  <div id="modal-lost-found" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Report Lost or Found Item</h3>
+        <button class="close-btn" onclick="closeModal('modal-lost-found')">&times;</button>
+      </div>
+      <form onsubmit="handleLostFoundSubmit(event)">
+        <div class="form-group">
+          <label>Type *</label>
+          <select id="lf-type">
+            <option value="lost">Lost Item (I misplaced something)</option>
+            <option value="found">Found Item (I discovered something)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Item Name *</label>
+          <input type="text" id="lf-title" required placeholder="e.g. Casio Calculator or Wallet">
+        </div>
+        <div class="form-group">
+          <label>Location on Campus *</label>
+          <input type="text" id="lf-location" required placeholder="e.g. Science Block Physics Lab">
+        </div>
+        <div class="form-group">
+          <label>Description *</label>
+          <textarea id="lf-desc" required placeholder="Color, brand, distinguishing marks"></textarea>
+        </div>
+        
+        <!-- Photo or Video Upload -->
+        <div class="form-group">
+          <label>Upload Photo or Video Proof</label>
+          <div class="media-upload-area" onclick="document.getElementById('lf-file').click()">
+            <i class="fa-solid fa-cloud-arrow-up text-2xl text-muted"></i>
+            <p>Click to upload Photo or Video Evidence</p>
+          </div>
+          <input type="file" id="lf-file" accept="image/*,video/*" class="hidden" onchange="previewMedia(this, 'lf-preview')">
+          <div id="lf-preview" class="media-preview-container hidden"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full">Submit Report</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Canteen Token Modal -->
+  <div id="modal-canteen-token" class="modal-overlay hidden">
+    <div class="modal-content text-center">
+      <h3>🎉 Wait-Free Canteen Token Generated!</h3>
+      <div id="token-display-number" class="token-number">#CT-104</div>
+      <p id="token-display-counter" class="badge-orange">Counter 1</p>
+      <div class="receipt-box">
+        <p><strong>Item:</strong> <span id="token-display-item"></span></p>
+        <p><strong>Price:</strong> ₹<span id="token-display-price"></span></p>
+        <p><strong>Student Roll:</strong> <span id="token-display-roll"></span></p>
+      </div>
+      <button class="btn btn-warning w-full" onclick="closeModal('modal-canteen-token')">Got It!</button>
+    </div>
+  </div>
+
+  <!-- Modal 3: Complaint Report (Photo/Video Proof) -->
+  <div id="modal-complaint" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Post Issue / Grievance (Photo & Video Proof)</h3>
+        <button class="close-btn" onclick="closeModal('modal-complaint')">&times;</button>
+      </div>
+      <form onsubmit="handleComplaintSubmit(event)">
+        <div class="form-group">
+          <label>Issue Title *</label>
+          <input type="text" id="cmp-title" required placeholder="e.g. Water cooler leaking in TB-205">
+        </div>
+        <div class="form-group">
+          <label>Category *</label>
+          <select id="cmp-category">
+            <option value="Drinking Water">Drinking Water & Sanitation</option>
+            <option value="Broken Benches">Broken Benches & Furniture</option>
+            <option value="Electrical">Electrical / Fans / Lights</option>
+            <option value="Canteen Hygiene">Canteen Hygiene</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Description *</label>
+          <textarea id="cmp-desc" required placeholder="Describe defect clearly"></textarea>
+        </div>
+
+        <!-- Photo or Video Upload -->
+        <div class="form-group">
+          <label>Attach Photo or Video Proof</label>
+          <div class="media-upload-area" onclick="document.getElementById('cmp-file').click()">
+            <i class="fa-solid fa-camera text-2xl text-muted"></i>
+            <p>Click to attach photo or video proof</p>
+          </div>
+          <input type="file" id="cmp-file" accept="image/*,video/*" class="hidden" onchange="previewMedia(this, 'cmp-preview')">
+          <div id="cmp-preview" class="media-preview-container hidden"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full">Submit & Lodge Ticket</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: Event & Games Registration Modal -->
+  <div id="modal-event-reg" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="event-reg-modal-title">Register for Event</h3>
+        <button class="close-btn" onclick="closeModal('modal-event-reg')">&times;</button>
+      </div>
+      <form onsubmit="handleEventRegSubmit(event)">
+        <input type="hidden" id="event-reg-target-title">
+        <div class="form-group">
+          <label>Student Name *</label>
+          <input type="text" id="ev-reg-name" required>
+        </div>
+        <div class="form-group">
+          <label>Student Roll Number *</label>
+          <input type="text" id="ev-reg-roll" required style="text-transform: uppercase;">
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="ev-reg-email" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-full">Confirm & Issue Pass</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 5: FAQs Modal -->
+  <div id="modal-faq" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Frequently Asked Questions</h3>
+        <button class="close-btn" onclick="closeModal('modal-faq')">&times;</button>
+      </div>
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <h4>Q: How does Roll Number login work?</h4>
+          <p>You can sign in directly using your college Roll Number (e.g. 22CS108). All tokens, passes, and complaint receipts will be mapped to your Roll Number.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Q: How does Lost & Found match notification work?</h4>
+          <p>When you post an item, our algorithm compares title, category, and location. If a match is found, an automated email is sent to your mailbox!</p>
+        </div>
+        <div class="faq-item">
+          <h4>Q: How do Canteen Queue tokens work?</h4>
+          <p>You generate a digital token without waiting in line. When your food is ready, you will hear an audio chime and get an order-ready reminder!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript File -->
+  <script src="js/script.js"></script>
+</body>
+</html>
