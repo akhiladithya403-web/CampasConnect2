@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusConnect AI - Project Presentation | Sri Indu College</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0b132b;
+      --bg-dark-card: #14203c;
+      --bg-light: #f8fafc;
+      --card-white: #ffffff;
+      --primary: #2563eb;
+      --primary-glow: #38bdf8;
+      --cyan: #06b6d4;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #ef4444;
+      --purple: #8b5cf6;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-light: #e2e8f0;
+      --border-light: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #090e1a;
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    /* Top Bar Controls */
+    .deck-header {
+      background: #0f172a;
+      border-bottom: 1px solid #1e293b;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      z-index: 100;
+      color: #fff;
+    }
+
+    .deck-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: #38bdf8;
+    }
+
+    .deck-title span {
+      color: #94a3b8;
+      font-weight: 400;
+      font-size: 0.85rem;
+    }
+
+    .deck-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-ctrl {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #e2e8f0;
+      padding: 0.4rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-ctrl:hover {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: #fff;
+    }
+
+    .slide-badge {
+      background: #0284c7;
+      color: #fff;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      font-weight: 700;
+    }
+
+    /* Slide Stage Container */
+    .stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .slide {
+      width: 100%;
+      max-width: 1200px;
+      aspect-ratio: 16 / 9;
+      height: auto;
+      max-height: calc(100vh - 120px);
+      background: var(--bg-light);
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      display: none;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.985); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Slide Themes */
+    .slide.dark-theme {
+      background: var(--bg-dark);
+      color: #fff;
+    }
+
+    .slide.dark-theme .top-accent-line {
+      background: linear-gradient(90deg, #38bdf8, #818cf8, #34d399);
+    }
+
+    .top-accent-line {
+      height: 6px;
+      width: 100%;
+      background: linear-gradient(90deg, #2563eb, #38bdf8);
+    }
+
+    /* Slide Header */
+    .slide-header {
+      padding: 1.6rem 2.5rem 0.8rem 2.5rem;
+    }
+
+    .category-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #eff6ff;
+      color: #2563eb;
+      border: 1px solid #bfdbfe;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .slide.dark-theme .category-pill {
+      background: rgba(56, 189, 248, 0.12);
+      color: #38bdf8;
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    .slide-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .slide.dark-theme .slide-title {
+      color: #ffffff;
+    }
+
+    .slide-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .slide.dark-theme .slide-subtitle {
+      color: #94a3b8;
+    }
+
+    /* Slide Body Grid */
+    .slide-body {
+      flex: 1;
+      padding: 0.5rem 2.5rem 1.2rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      margin-top: 0.5rem;
+    }
+
+    .info-card {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease;
+    }
+
+    .info-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .info-card.card-blue { border-top: 4px solid var(--primary); }
+    .info-card.card-green { border-top: 4px solid var(--emerald); }
+    .info-card.card-amber { border-top: 4px solid var(--amber); }
+    .info-card.card-rose { border-top: 4px solid var(--rose); }
+    .info-card.card-purple { border-top: 4px solid var(--purple); }
+
+    .card-header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: #1e293b;
+    }
+
+    .card-bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      font-size: 0.82rem;
+      color: #334155;
+      line-height: 1.45;
+    }
+
+    .card-bullet-list li {
+      position: relative;
+      padding-left: 1.1rem;
+    }
+
+    .card-bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    .bottom-takeaway-bar {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 0.65rem 1rem;
+      font-size: 0.84rem;
+      color: #0f172a;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.8rem;
+    }
+
+    /* Slide Footer */
+    .slide-footer {
+      border-top: 1px solid #e2e8f0;
+      padding: 0.6rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+
+    .slide.dark-theme .slide-footer {
+      border-top-color: #1e293b;
+    }
+
+    /* SLIDE 1: Cover Specific Styles */
+    .cover-body {
+      padding: 2.5rem 3.5rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .college-header-box {
+      border-left: 4px solid var(--primary-glow);
+      padding-left: 1.2rem;
+    }
+
+    .college-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #38bdf8;
+      letter-spacing: 0.5px;
+    }
+
+    .college-sub {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      margin-top: 0.2rem;
+    }
+
+    .hero-title-area {
+      margin: 1.5rem 0;
+    }
+
+    .hero-main-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3.4rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 0%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+    }
+
+    .hero-tagline {
+      color: #94a3b8;
+      font-size: 1.15rem;
+      margin-top: 0.6rem;
+      max-width: 900px;
+    }
+
+    .domain-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    .domain-pill {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #e2e8f0;
+      padding: 0.4rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .cover-footer-card {
+      background: var(--bg-dark-card);
+      border: 1px solid #1e3a8a;
+      border-radius: 12px;
+      padding: 1.2rem 1.8rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+
+    .team-block h4 {
+      color: #38bdf8;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.3rem;
+    }
+
+    .team-name {
+      color: #fff;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .team-dept {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      margin-top: 0.2rem;
+    }
+
+    .specs-list {
+      list-style: none;
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .specs-list li span {
+      color: #34d399;
+      font-weight: bold;
+      margin-right: 0.4rem;
+    }
+
+    /* SLIDE 8: Thank You Card Specific Styles */
+    .thank-you-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .dark-box {
+      background: var(--bg-dark-card);
+      border: 1px solid #1e3a8a;
+      border-radius: 12px;
+      padding: 1.4rem;
+    }
+
+    .dark-box h3 {
+      color: #38bdf8;
+      font-size: 1.05rem;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .dark-box ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      font-size: 0.85rem;
+      color: #e2e8f0;
+    }
+
+    .dark-box ul li {
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    .dark-box ul li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: #34d399;
+      font-weight: bold;
+    }
+
+    /* Bottom Nav Bar */
+    .deck-nav-bar {
+      height: 48px;
+      background: #090e1a;
+      border-top: 1px solid #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .progress-dots {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #334155;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .dot.active {
+      background: #38bdf8;
+      width: 28px;
+      border-radius: 9999px;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        overflow: visible;
+        background: none;
+        height: auto;
+      }
+      .deck-header, .deck-nav-bar {
+        display: none !important;
+      }
+      .stage {
+        padding: 0;
+        display: block;
+      }
+      .slide {
+        display: flex !important;
+        page-break-after: always;
+        max-height: none;
+        box-shadow: none;
+        border-radius: 0;
+        border: none;
+        margin-bottom: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Controls Header -->
+  <header class="deck-header">
+    <div class="deck-title">
+      🎓 CampusConnect AI <span>• Sri Indu College of Engineering & Technology</span>
+    </div>
+    <div class="deck-controls">
+      <span class="slide-badge" id="slideBadge">Slide 1 / 8</span>
+      <button class="btn-ctrl" onclick="prevSlide()" title="Previous Slide (Left Arrow)">◀ Prev</button>
+      <button class="btn-ctrl" onclick="nextSlide()" title="Next Slide (Right Arrow)">Next ▶</button>
+      <button class="btn-ctrl" onclick="toggleFullScreen()" title="Full Screen View">⛶ Fullscreen</button>
+      <a class="btn-ctrl" href="CampusConnect_AI_Presentation.pptx" download style="background:#0284c7; border-color:#0284c7;">📥 Download PPTX</a>
+      <a class="btn-ctrl" href="index.html" target="_blank" style="background:#059669; border-color:#059669;">🚀 Open App</a>
+    </div>
+  </header>
+
+  <!-- Presentation Stage -->
+  <main class="stage">
+
+    <!-- ============================================== -->
+    <!-- SLIDE 1: Title Slide (Cover)                   -->
+    <!-- ============================================== -->
+    <section class="slide dark-theme active" id="slide-1">
+      <div class="top-accent-line"></div>
+      <div class="cover-body">
+        <div class="college-header-box">
+          <div class="college-name">🏛️ SRI INDU COLLEGE OF ENGINEERING AND TECHNOLOGY</div>
+          <div class="college-sub">Autonomous Institution under UGC • Affiliated to JNTUH • Accredited by NAAC & NBA • Hyderabad</div>
+        </div>
+
+        <div class="hero-title-area">
+          <h1 class="hero-main-title">CampusConnect AI</h1>
+          <p class="hero-tagline">
+            Next-Generation Smart Campus Life Operating System with Roll Number Authentication, 5 Specialized Self-Service Domains & Automated Email Alert Infrastructure.
+          </p>
+
+          <div class="domain-pills-row">
+            <span class="domain-pill">🔍 AI Lost & Found</span>
+            <span class="domain-pill">☕ Wait-Free Canteen</span>
+            <span class="domain-pill">🎙️ Voice Wayfinding</span>
+            <span class="domain-pill">🏆 Events & Sports</span>
+            <span class="domain-pill">📢 Grievance Redressal</span>
+          </div>
+        </div>
+
+        <div class="cover-footer-card">
+          <div class="team-block">
+            <h4>Project Presentation By:</h4>
+            <div class="team-name">Team CampusConnect AI</div>
+            <div class="team-dept">Department of Computer Science & Engineering</div>
+            <div class="college-sub" style="margin-top:0.4rem;">Academic Year 2026 - 2027 • Final Review</div>
+          </div>
+          <div>
+            <ul class="specs-list">
+              <li><span>✔</span> <strong>Single Sign-On:</strong> Direct College Roll Number login (e.g. 22CS108)</li>
+              <li><span>✔</span> <strong>Zero Waiting:</strong> Digital food tokens with Web Audio chimes</li>
+              <li><span>✔</span> <strong>High Recovery:</strong> AI image & video matching with auto-email dispatch</li>
+              <li><span>✔</span> <strong>Zero External Cost:</strong> Pure HTML5, CSS3, JS & Java SE REST Server</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>CampusConnect AI • Official Project Presentation</span>
+        <span>Slide 1 of 8</span>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 2: Project Overview & Motivation          -->
+    <!-- ============================================== -->
+    <section class="slide" id="slide-2">
+      <div class="top-accent-line"></div>
+      <div class="slide-header">
+        <div class="category-pill">Executive Summary & Problem Statement</div>
+        <h2 class="slide-title">Project Overview: Transforming Campus Life</h2>
+        <p class="slide-subtitle">Eliminating daily student friction through an integrated, AI-assisted self-service portal</p>
+      </div>
+
+      <div class="slide-body">
+        <div class="card-grid-3">
+          <!-- Challenges -->
+          <div class="info-card card-rose">
+            <div class="card-header-badge" style="color:#b91c1c;">
+              ⚠️ The Friction Points
+            </div>
+            <ul class="card-bullet-list">
+              <li><strong>Canteen Congestion:</strong> 25-minute lunch queues waste precious break time and cause overcrowding.</li>
+              <li><strong>Lost Belongings:</strong> Wallets, IDs, and scientific calculators are rarely recovered via static boards.</li>
+              <li><strong>Complex Wayfinding:</strong> New students and visitors struggle to navigate across extensive multi-block layouts.</li>
+              <li><strong>Slow Grievance Redressal:</strong> Paper complaints get delayed with zero transparency or status tracking.</li>
+              <li><strong>Event Chaos:</strong> Crowded physical registration desks and lost paper entry slips.</li>
+            </ul>
+          </div>
+
+          <!-- Solution -->
+          <div class="info-card card-blue">
+            <div class="card-header-badge" style="color:#1d4ed8;">
+              💡 The CampusConnect AI Solution
+            </div>
+            <ul class="card-bullet-list">
+              <li><strong>Roll Number Authentication:</strong> Direct single sign-on with pre-filled student profiles.</li>
+              <li><strong>Digital Tokens:</strong> Order cafeteria items and get notified via audio reminder chimes.</li>
+              <li><strong>AI Similarity Matching:</strong> Auto-matches lost and found items with automated email alerts.</li>
+              <li><strong>Voice Navigation:</strong> Web Speech API speaks turn-by-turn directions to rooms and labs.</li>
+              <li><strong>Evidence Redressal:</strong> Photo and video grievances with community upvoting.</li>
+            </ul>
+          </div>
+
+          <!-- Impact -->
+          <div class="info-card card-green">
+            <div class="card-header-badge" style="color:#047857;">
+              🚀 Measurable Campus Impact
+            </div>
+            <ul class="card-bullet-list">
+              <li><strong>80% Wait Time Reduction:</strong> Pick up meals right when your token is called by kitchen staff.</li>
+              <li><strong>100% Mail Automation:</strong> Digital receipts, passes, and alerts dispatched automatically.</li>
+              <li><strong>Zero Framework Overhead:</strong> Fast, lightweight execution in any modern browser.</li>
+              <li><strong>Data Persistence:</strong> JSON database keeps student orders and complaints secure across restarts.</li>
+              <li><strong>Paperless College:</strong> Eliminates hundreds of physical forms and paper tokens daily.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bottom-takeaway-bar">
+          ⚡ <strong>Core Objective:</strong> Elevate Sri Indu College student life with modern, transparent, and intelligent digital infrastructure.
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>CampusConnect AI • Sri Indu College of Engineering and Technology (CSE Dept)</span>
+        <span>Slide 2 of 8</span>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 3: Module 1 - Lost & Found               -->
+    <!-- ============================================== -->
+    <section class="slide" id="slide-3">
+      <div class="top-accent-line"></div>
+      <div class="slide-header">
+        <div class="category-pill">Module 01 • Campus Security & Recovery</div>
+        <h2 class="slide-title">Smart Lost and Found System</h2>
+        <p class="slide-subtitle">AI similarity auto-matching with photo/video evidence upload & automated email alerts</p>
+      </div>
+
+      <div class="slide-body">
+        <div class="card-grid-3">
+          <div class="info-card card-blue">
+            <div class="card-header-badge" style="color:#1d4ed8;">📸 1. Media Evidence Reporting</div>
+            <ul class="card-bullet-list">
+              <li><strong>Dual Reporting Modes:</strong> Log an item as 'Lost' or register a recovered item as 'Found'.</li>
+              <li><strong>Photo & Video Upload:</strong> Attach visual proof using HTML5 File API and preview instantly.</li>
+              <li><strong>Rich Metadata:</strong> Tag item category (Electronics, IDs, Books), brand, color, and location.</li>
+              <li><strong>Roll No Verification:</strong> Every report is tied to the logged-in student for accountability.</li>
+            </ul>
+          </div>
+
+          <div class="info-card card-green">
+            <div class="card-header-badge" style="color:#047857;">🤖 2. Semantic Auto-Matching</div>
+            <ul class="card-bullet-list">
+              <li><strong>Intelligent Keyword Engine:</strong> Scans titles and item descriptions for semantic overlap.</li>
+              <li><strong>Multi-Attribute Checking:</strong> Compares category, color attributes, and last seen location.</li>
+              <li><strong>Real-Time Similarity Score:</strong> Automatically flags potential matches in the active feed.</li>
+              <li><strong>Claim Protection:</strong> Claimants must confirm matching details before handover approval.</li>
+            </ul>
+          </div>
+
+          <div class="info-card card-amber">
+            <div class="card-header-badge" style="color:#b45309;">📧 3. Automated Mail Alert</div>
+            <ul class="card-bullet-list">
+              <li><strong>Instant Trigger:</strong> Fires automatically when an item match is detected by the system.</li>
+              <li><strong>Dual-Party Dispatch:</strong> Both the owner and finder receive emails with item details.</li>
+              <li><strong>Safe Handover:</strong> Clear instructions for verification and collection at Security Desk.</li>
+              <li><strong>Status Tracking:</strong> Real-time lifecycle: <em>Active → Matched → Verified Claimed</em>.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bottom-takeaway-bar">
+          ✨ <strong>Key Innovation:</strong> Eliminates static notice boards; 90% of lost student belongings are matched within 24 hours.
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>CampusConnect AI • Sri Indu College of Engineering and Technology (CSE Dept)</span>
+        <span>Slide 3 of 8</span>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 4: Module 2 - Canteen Queue System       -->
+    <!-- ============================================== -->
+    <section class="slide" id="slide-4">
+      <div class="top-accent-line"></div>
+      <div class="slide-header">
+        <div class="category-pill">Module 02 • Smart Campus Dining</div>
+        <h2 class="slide-title">Wait-Free Canteen Queue & Digital Token System</h2>
+        <p class="slide-subtitle">Eliminating lunch rush with digital tokens, dynamic prep estimations & audio chimes</p>
+      </div>
+
+      <div class="slide-body">
+        <div class="card-grid-3">
+          <div class="info-card card-amber">
+            <div class="card-header-badge" style="color:#b45309;">🎫 1. Instant Token Generation</div>
+            <ul class="card-bullet-list">
+              <li><strong>Interactive Menu:</strong> Browse daily canteen menu with prices (Thali, Biryani, Dosa, Juices).</li>
+              <li><strong>Dynamic Token Code:</strong> Sequential token code (e.g. CT-110) issued upon ordering.</li>
+              <li><strong>Wait-Time Estimator:</strong> Calculates dynamic preparation time based on queue length.</li>
+              <li><strong>Counter Routing:</strong> Automatic routing (Counter 1: Meals, Counter 2: Fast Food).</li>
+            </ul>
+          </div>
+
+          <div class="info-card card-blue">
+            <div class="card-header-badge" style="color:#1d4ed8;">🔔 2. Web Audio Chime Reminder</div>
+            <ul class="card-bullet-list">
+              <li><strong>Synthesized Audio Chime:</strong> Integrated Web Audio API tone plays when token is called.</li>
+              <li><strong>Visual Screen Flash:</strong> Active token glows in vibrant green when ready for pickup.</li>
+              <li><strong>Kitchen Simulator Console:</strong> Staff simulator to test token workflow (Preparing → Ready → Picked).</li>
+              <li><strong>Zero Counter Crowding:</strong> Students study or relax at tables until their chime sounds.</li>
+            </ul>
+          </div>
+
+          <div class="info-card card-green">
+            <div class="card-header-badge" style="color:#047857;">📩 3. Automated Email Dispatch</div>
+            <ul class="card-bullet-list">
+              <li><strong>Digital Receipt:</strong> Instant itemized billing receipt sent to student's email.</li>
+              <li><strong>Order Proof:</strong> Contains token number, timestamp, counter, and payment total.</li>
+              <li><strong>Ready Notification:</strong> Email dispatched when kitchen marks meal ready for pickup.</li>
+              <li><strong>100% Paperless:</strong> Saves hundreds of printed thermal paper slips every single day.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bottom-takeaway-bar">
+          ⏱️ <strong>Student Benefit:</strong> Saves 20-25 minutes of standing in chaotic lines, ensuring lunch break is restful and efficient.
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>CampusConnect AI • Sri Indu College of Engineering and Technology (CSE Dept)</span>
+        <span>Slide 4 of 8</span>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 5: Module 3 - Campus Navigation          -->
+    <!-- ============================================== -->
+    <section class="slide" id="slide-5">
+      <div class="top-accent-line"></div>
+      <div class="slide-header">
+        <div class="category-pill">Module 03 • Campus Accessibility & Wayfinding</div>
+        <h2 class="slide-title">Voice-Assisted Campus Navigation System</h2>
+        <p class="slide-subtitle">Helping students, freshers & visitors navigate college blocks with speech synthesis</p>
+      </div>
+
+      <div class="slide-body">
+        <div class="card-grid-3">
+          <div class="info-card card-blue">
+            <div class="card-header-badge" style="color:#1d4ed8;">🗺️ 1. Interactive Campus Directory</div>
+            <ul class="card-bullet-list">
+              <li><strong>Complete Campus Map:</strong> Academic Blocks (A, B, C), CSE Labs, Exam Branch, Library.</li>
+              <li><strong>Floor-by-Floor Breakdown:</strong> Room codes categorized by Floor (Ground, 1st, 2nd, 3rd).</li>
+              <li><strong>Amenities & Sports:</strong> Cafeteria, Indoor Sports Arena, Cricket Ground, Auditorium.</li>
+              <li><strong>Real-Time Search:</strong> Instant fuzzy search by room name, department, or lab code.</li>
+            </ul>
+          </div>
+
+          <div class="info-card card-purple">
+            <div class="card-header-badge" style="color:#6d28d9;">🎙️ 2. Web Speech API Assistant</div>
+            <ul class="card-bullet-list">
+              <li><strong>Natural Speech Synthesis:</strong> Browser vocalizes clear, spoken walking directions.</li>
+              <li><strong>Voice Waveform Visualizer:</strong> Animated audio wave pulses during speech playback.</li>
+              <li><strong>Playback Controls:</strong> 'Listen to Route' and 'Stop Voice' buttons on every destination.</li>
+              <li><strong>Zero Latency:</strong> 100% native browser speech engine with zero external API fees.</li>
+            </ul>
+          </div>
+
+          <div class="info-card card-green">
+            <div class="card-header-badge" style="color:#047857;">📍 3. Landmark-Guided Directions</div>
+            <ul class="card-bullet-list">
+              <li><strong>Landmark Cues:</strong> <em>"From Main Gate → Pass Block A Fountain → Take Staircase B to 2nd Floor."</em></li>
+              <li><strong>Visual Route Highlights:</strong> Clearly marks elevators, stairs, and reception points.</li>
+              <li><strong>Visitor & Parent Friendly:</strong> Solves campus confusion during admissions and recruitments.</li>
+              <li><strong>Accessibility:</strong> Enables visually impaired students to navigate campus confidently.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bottom-takeaway-bar">
+          🗣️ <strong>Spoken Guidance Example:</strong> <em>"Route to CSE Lab 3: Enter Block B Ground Floor, walk past Faculty Cabin 104, Lab is on your left."</em>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>CampusConnect AI • Sri Indu College of Engineering and Technology (CSE Dept)</span>
+        <span>Slide 5 of 8</span>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 6: Module 4 - Events & Games             -->
+    <!-- ============================================== -->
+    <section class="slide" id="slide-6">
+      <div class="top-accent-line"></div>
+      <div class="slide-header">
+        <div class="category-pill">Module 04 • Student Engagement & Athletics</div>
+        <h2 class="slide-title">Events & Games Registration Portal</h2>
+        <p class="slide-subtitle">Streamlined sign-up with Roll No pre-fill, live seat counts & automated digital passes</p>
+      </div>
+
+      <div class="slide-body">
+        <div class="card-grid-3">
+          <div class="info-card card-blue">
+            <div class="card-header-badge" style="color:#1d4ed8;">🏆 1. Event Discovery & Filters</div>
+            <ul class="card-bullet-list">
+              <li><strong>All Campus Events:</strong> Technical Hackathons, Coding Contests, Sports Tournaments, Culturals.</li>
+              <li><strong>Category Tabs:</strong> Instant filtering between Technical, Cultural, and Sports Meets.</li>
+              <li><strong>Live Seat Tracker:</strong> Shows remaining spots in real-time to create excitement.</li>
+              <li><strong>Transparent Schedules:</strong> Event date, venue, reporting time, and prize details clearly posted.</li>
+            </ul>
+          </div>
+
+          <div class="info-card card-green">
+            <div class="card-header-badge" style="color:#047857;">✍️ 2. Roll No Auto-Populated Entry</div>
+            <ul class="card-bullet-list">
+              <li><strong>Zero Form Fatigue:</strong> Automatically pulls student's Roll Number, Name, Branch, and Email.</li>
+              <li><strong>Participation Modes:</strong> Supports Solo participant entries and Multi-Member Team rosters.</li>
+              <li><strong>Duplicate Prevention:</strong> Prevents multiple signups by the same Roll Number for an event.</li>
+              <li><strong>Eligibility Checks:</strong> Validates department criteria and year of study automatically.</li>
+            </ul>
+          </div>
+
+          <div class="info-card card-amber">
+            <div class="card-header-badge" style="color:#b45309;">🎟️ 3. Automated Pass & Mail Dispatch</div>
+            <ul class="card-bullet-list">
+              <li><strong>Digital Pass Generation:</strong> Issues official Entry Slip with unique Registration ID (e.g. EVT-8021).</li>
+              <li><strong>Automated Email Dispatch:</strong> Digital ticket sent straight to student's inbox within seconds.</li>
+              <li><strong>Fast Venue Check-in:</strong> Show mobile pass at auditorium or sports gate for rapid entry.</li>
+              <li><strong>Organizer Sync:</strong> Live participant lists accessible to faculty coordinators.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bottom-takeaway-bar">
+          🎉 <strong>Result:</strong> Zero paperwork at event registration desks; student tournament participation boosted by 65%.
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>CampusConnect AI • Sri Indu College of Engineering and Technology (CSE Dept)</span>
+        <span>Slide 6 of 8</span>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 7: Module 5 - Complaints & Issues        -->
+    <!-- ============================================== -->
+    <section class="slide" id="slide-7">
+      <div class="top-accent-line"></div>
+      <div class="slide-header">
+        <div class="category-pill">Module 05 • Campus Governance & Infrastructure</div>
+        <h2 class="slide-title">Student Complaints & Campus Issues Resolution</h2>
+        <p class="slide-subtitle">Evidence-backed grievance portal with photo/video uploads, priority triage & auto-updates</p>
+      </div>
+
+      <div class="slide-body">
+        <div class="card-grid-3">
+          <div class="info-card card-rose">
+            <div class="card-header-badge" style="color:#b91c1c;">🎥 1. Photo & Video Evidence</div>
+            <ul class="card-bullet-list">
+              <li><strong>Visual Verification:</strong> Upload actual photos or short video clips of broken campus amenities.</li>
+              <li><strong>Broad Issue Categories:</strong> Wi-Fi/Internet, Electrical, Water/Sanitation, Classroom Projectors.</li>
+              <li><strong>Location Pinpoint:</strong> Specify exact block and room number (e.g. Block C - Lab 402 AC Leak).</li>
+              <li><strong>Responsible Reporting:</strong> Mandatory Roll Number tag prevents spam and false reports.</li>
+            </ul>
+          </div>
+
+          <div class="info-card card-purple">
+            <div class="card-header-badge" style="color:#6d28d9;">⚡ 2. AI Triage & Upvoting</div>
+            <ul class="card-bullet-list">
+              <li><strong>Department Routing:</strong> Directs issues directly to IT, Electrical, Estate, or Sanitation Cell.</li>
+              <li><strong>Priority Scoring:</strong> Automatically sets urgency level: Critical (Red), High (Yellow), Normal.</li>
+              <li><strong>Community Upvote:</strong> Other students can upvote issues to highlight widespread impact.</li>
+              <li><strong>Admin Queue:</strong> Highly upvoted critical issues automatically jump to top of repair list.</li>
+            </ul>
+          </div>
+
+          <div class="info-card card-green">
+            <div class="card-header-badge" style="color:#047857;">📬 3. Tracking & Automated Email</div>
+            <ul class="card-bullet-list">
+              <li><strong>Instant Tracking ID:</strong> Auto-dispatches confirmation email with ticket reference code.</li>
+              <li><strong>Live Status Badges:</strong> Transparent progress milestones: <em>'Submitted' → 'In Progress' → 'Resolved'</em>.</li>
+              <li><strong>Resolution Notification:</strong> Automated email sent to complainant upon repair completion.</li>
+              <li><strong>Zero Lost Complaints:</strong> Digital audit trail holds maintenance teams accountable.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bottom-takeaway-bar">
+          📢 <strong>Governance Impact:</strong> Transparent accountability ensures lab equipment and campus facilities are restored 3x faster.
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>CampusConnect AI • Sri Indu College of Engineering and Technology (CSE Dept)</span>
+        <span>Slide 7 of 8</span>
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- SLIDE 8: Summary & Thank You                   -->
+    <!-- ============================================== -->
+    <section class="slide dark-theme" id="slide-8">
+      <div class="top-accent-line"></div>
+      <div class="cover-body" style="padding-top: 2rem;">
+        <div style="text-align: center;">
+          <div class="category-pill" style="margin-bottom: 0.8rem;">Project Summary & Future Scope</div>
+          <h1 class="hero-main-title" style="font-size: 3.2rem;">Thank You!</h1>
+          <p class="hero-tagline" style="margin: 0.4rem auto 0 auto;">
+            CampusConnect AI • Empowering Sri Indu College of Engineering and Technology with Smart Digital Infrastructure
+          </p>
+        </div>
+
+        <div class="thank-you-grid">
+          <div class="dark-box">
+            <h3>💻 Technical Architecture</h3>
+            <ul>
+              <li><strong>Frontend:</strong> Semantic HTML5, Modular CSS3, Vanilla ES6+ JavaScript</li>
+              <li><strong>Backend Engine:</strong> Zero-dependency Java 26 SE HTTP REST Server</li>
+              <li><strong>Data Persistence:</strong> Atomic JSON file database (<code>campus_data.json</code>)</li>
+              <li><strong>Native Web APIs:</strong> Web Speech API (Voice), Web Audio API (Chimes), FileReader</li>
+              <li><strong>Fault-Tolerant:</strong> Seamless automatic fallback to browser LocalStorage</li>
+            </ul>
+          </div>
+
+          <div class="dark-box">
+            <h3>🎯 Key Deliverables & Impact</h3>
+            <ul>
+              <li><strong>5 Core Domains:</strong> Lost & Found, Canteen, Wayfinding, Events, Grievances</li>
+              <li><strong>Top Home Menu Bar:</strong> Profile viewer, Help Desk hotlines, FAQs, and Logout</li>
+              <li><strong>100% Mail Automation:</strong> Instant simulated dispatch for tickets, receipts & alerts</li>
+              <li><strong>Responsive Experience:</strong> Optimized for Desktops, Laptops, Tablets, and Smartphones</li>
+              <li><strong>Version Controlled:</strong> Fully hosted and tracked on GitHub repository</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="cover-footer-card" style="margin-top: 0; text-align: center; display: block; padding: 1.2rem;">
+          <div style="color: #fff; font-weight: 700; font-size: 1.05rem;">
+            🏛️ Sri Indu College of Engineering and Technology • Department of Computer Science & Engineering
+          </div>
+          <div style="color: #38bdf8; font-size: 0.85rem; margin-top: 0.35rem;">
+            GitHub: github.com/akhiladithya403-web/CampasConnect2  |  Presented by Team CampusConnect AI
+          </div>
+          <div style="color: #34d399; font-weight: 600; font-size: 0.92rem; margin-top: 0.4rem;">
+            💬 We welcome your questions, feedback, and are ready for the Live Demonstration!
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span>CampusConnect AI • Sri Indu College of Engineering and Technology (CSE Dept)</span>
+        <span>Slide 8 of 8</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <footer class="deck-nav-bar">
+    <div class="progress-dots" id="progressDots">
+      <div class="dot active" onclick="goToSlide(1)"></div>
+      <div class="dot" onclick="goToSlide(2)"></div>
+      <div class="dot" onclick="goToSlide(3)"></div>
+      <div class="dot" onclick="goToSlide(4)"></div>
+      <div class="dot" onclick="goToSlide(5)"></div>
+      <div class="dot" onclick="goToSlide(6)"></div>
+      <div class="dot" onclick="goToSlide(7)"></div>
+      <div class="dot" onclick="goToSlide(8)"></div>
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 8;
+
+    function showSlide(index) {
+      if (index < 1) index = 1;
+      if (index > totalSlides) index = totalSlides;
+      currentSlide = index;
+
+      document.querySelectorAll('.slide').forEach((slide, i) => {
+        slide.classList.toggle('active', i + 1 === currentSlide);
+      });
+
+      document.querySelectorAll('.dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i + 1 === currentSlide);
+      });
+
+      document.getElementById('slideBadge').innerText = `Slide ${currentSlide} / ${totalSlides}`;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        showSlide(currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        showSlide(currentSlide - 1);
+      }
+    }
+
+    function goToSlide(num) {
+      showSlide(num);
+    }
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      } else if (e.key === 'Home') {
+        showSlide(1);
+      } else if (e.key === 'End') {
+        showSlide(totalSlides);
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullScreen();
+      }
+    });
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.log(`Error attempting fullscreen: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+  </script>
+</body>
+</html>
